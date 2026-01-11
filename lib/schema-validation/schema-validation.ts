@@ -1,0 +1,25 @@
+import z from "zod";
+import {
+  emailSchema,
+  passwordSchema,
+  phoneSchema,
+  stringSchema,
+} from "./schema-helper";
+
+export const LoginSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
+
+export const RegisterSchema = z
+  .object({
+    name: stringSchema(5, 100),
+    email: emailSchema,
+    phoneNumber: phoneSchema,
+    password: passwordSchema,
+    confimPassword: passwordSchema,
+  })
+  .refine((data) => data.password === data.confimPassword, {
+    message: "Passwords do not match",
+    path: ["confimPassword"],
+  });

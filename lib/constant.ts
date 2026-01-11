@@ -1,0 +1,14 @@
+export const ROUTES = {
+  PUBLIC: {
+    LOGIN: "/",
+    REGISTER: "/register",
+    FORGOT_PASSWORD: "/forgot-password",
+  },
+};
+
+export const IMG_PUBLIC = {
+  LOGO: "/assets/logo.png",
+  BG_HERO: "/assets/bg-hero.jpg",
+  BG_CTA: "/assets/bg-cta.jpg",
+  GOOGLE: "https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg",
+};
