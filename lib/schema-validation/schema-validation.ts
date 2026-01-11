@@ -23,3 +23,7 @@ export const RegisterSchema = z
     message: "Passwords do not match",
     path: ["confimPassword"],
   });
+
+export const NewsLetterSchema = z.object({
+  email: emailSchema,
+});

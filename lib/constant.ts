@@ -4,6 +4,9 @@ export const ROUTES = {
     REGISTER: "/register",
     FORGOT_PASSWORD: "/forgot-password",
   },
+  AUTH: {
+    INDEX: "/dashboard",
+  },
 };
 
 export const IMG_PUBLIC = {
