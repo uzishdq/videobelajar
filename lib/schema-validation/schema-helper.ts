@@ -3,34 +3,34 @@ import z from "zod";
 const allowedRegex = /^[a-zA-Z0-9.,/ \-']+$/;
 
 export const emailSchema = z
-  .email()
-  .max(255, "Must not exceed 255 characters.");
+  .email({ error: "Alamat email tidak valid" })
+  .max(255, "Tidak boleh melebihi 255 karakter.");
 export const passwordSchema = z
   .string()
-  .min(6, "Must be at least 6 characters long.")
-  .max(50, "Must not exceed 50 characters.");
+  .min(6, "Harus terdiri dari minimal 6 karakter.")
+  .max(50, "Tidak boleh melebihi 50 karakter.");
 
 export const stringSchema = (min = 5, max = 50) =>
   z
     .string()
-    .min(min, `Must be at least ${min} characters long.`)
-    .max(max, `Must not exceed ${max} characters.`)
+    .min(min, `Harus terdiri dari minimal ${min} karakter.`)
+    .max(max, `Tidak boleh melebihi ${max} karakter.`)
     .regex(
       allowedRegex,
-      "Use only letters, numbers, spaces, dots, commas, or slashes."
+      "Gunakan hanya huruf, angka, spasi, titik, koma, atau garis miring."
     );
 
 export const phoneSchema = z
   .string()
   .min(10, {
-    message: "Phone number must be at least 10 digits long.",
+    message: "Nomor telepon harus terdiri dari minimal 10 digit.",
   })
   .max(15, {
-    message: "Phone number must not exceed 15 digits.",
+    message: "Nomor telepon tidak boleh lebih dari 15 digit.",
   })
   .regex(/^\d+$/, {
-    message: "Phone number can contain digits only.",
+    message: "Nomor telepon hanya boleh berisi angka.",
   })
   .refine((value) => value.startsWith("8"), {
-    message: "Phone number must start with 8",
+    message: "Nomor telepon harus dimulai dengan 8.",
   });

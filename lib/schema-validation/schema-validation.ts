@@ -20,7 +20,7 @@ export const RegisterSchema = z
     confimPassword: passwordSchema,
   })
   .refine((data) => data.password === data.confimPassword, {
-    message: "Passwords do not match",
+    message: "Kata sandi tidak cocok",
     path: ["confimPassword"],
   });
 
