@@ -24,8 +24,12 @@ import { Input } from "../ui/input";
 import Link from "next/link";
 import { IMG_PUBLIC, ROUTES } from "@/lib/constant";
 import Image from "next/image";
+import React from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function RegisterForm() {
+  const [showPassword, setShowPassword] = React.useState(false);
+
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -111,7 +115,25 @@ export default function RegisterForm() {
                     Kata Sandi<span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <Button
+                        type="button"
+                        variant="link"
+                        size="icon"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5" />
+                        ) : (
+                          <Eye className="h-5" />
+                        )}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -127,7 +149,25 @@ export default function RegisterForm() {
                     Konfirmasi Kata Sandi<span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <Button
+                        type="button"
+                        variant="link"
+                        size="icon"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5" />
+                        ) : (
+                          <Eye className="h-5" />
+                        )}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
