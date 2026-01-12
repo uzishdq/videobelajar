@@ -40,9 +40,9 @@ export default function LoginForm() {
   }
   return (
     <Card className="w-full max-w-xl min-w-sm">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Masuk Ke Akun</CardTitle>
-        <CardDescription>
+      <CardHeader className="text-center py-2.5">
+        <CardTitle className="text-2xl md:text-[32px]">Masuk Ke Akun</CardTitle>
+        <CardDescription className="md:text-[16px]">
           Yuk, lanjutin belajarmu di videobelajar.
         </CardDescription>
       </CardHeader>

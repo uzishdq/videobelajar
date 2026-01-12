@@ -44,8 +44,12 @@ export default function RegisterForm() {
   return (
     <Card className="w-full max-w-xl min-w-sm">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Pendaftaran Akun</CardTitle>
-        <CardDescription>Yuk, daftarkan akunmu sekarang juga!</CardDescription>
+        <CardTitle className="text-2xl md:text-[32px]">
+          Pendaftaran Akun
+        </CardTitle>
+        <CardDescription className="md:text-[16px]">
+          Yuk, daftarkan akunmu sekarang juga!
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
