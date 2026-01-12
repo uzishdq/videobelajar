@@ -7,6 +7,7 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 export default function FormNewsLetter() {
   const form = useForm<z.infer<typeof NewsLetterSchema>>({
@@ -19,7 +20,9 @@ export default function FormNewsLetter() {
 
   function onSubmit(values: z.infer<typeof NewsLetterSchema>) {
     console.log(values);
+    toast.success("berhasil");
   }
+
   return (
     <Form {...form}>
       <form
