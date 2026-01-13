@@ -5,7 +5,6 @@ import React from "react";
 import { Course, tabs } from "@/lib/data-dummy";
 import CourseSkeleton from "./course-skeleton";
 import CourseCard from "./course-card";
-import { Button } from "../ui/button";
 
 export default function CourseWrap({ data }: Readonly<{ data: Course[] }>) {
   const [activeTab, setActiveTab] = React.useState("all");
@@ -34,7 +33,7 @@ export default function CourseWrap({ data }: Readonly<{ data: Course[] }>) {
         </p>
       </div>
 
-      <div className="flex gap-4 mb-12 overflow-x-auto whitespace-nowrap px-4">
+      <div className="flex gap-4 mb-12 overflow-x-scroll whitespace-nowrap px-4">
         {tabs.map((tab) => (
           <button
             key={tab.value}

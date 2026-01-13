@@ -29,6 +29,7 @@ export default function CourseCard({ data }: Readonly<{ data: Course }>) {
             />
           </div>
         </div>
+
         <div className="flex flex-col flex-1 md:gap-3">
           <CardHeader>
             <CardTitle className="text-[18px]">{data.title}</CardTitle>
