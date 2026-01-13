@@ -1,12 +1,17 @@
-import CourseCard from "@/components/card/course-card";
-import CtaCard from "@/components/card/cta-card";
-import HeroCard from "@/components/card/hero-card";
-import React from "react";
+import { IMG_PUBLIC } from "@/lib/constant";
+
+import CourseCard from "@/components/card/course/course-card";
+import CtaContent from "@/components/card/cta/cta-content";
+import HeroContent from "@/components/card/hero/hero-content";
+import HeroSection from "@/components/card/hero/hero-section";
 
 export default function DashboardPage() {
   return (
     <main className="flex min-h-screen flex-col items-center px-7 py-5 md:px-6 md:py-16 space-y-6 md:space-y-16">
-      <HeroCard />
+      <HeroSection img={IMG_PUBLIC.BG_HERO}>
+        <HeroContent />
+      </HeroSection>
+
       <section className="flex flex-col justify-center w-full max-w-300">
         <div className="mb-12 text-left">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">
@@ -23,7 +28,10 @@ export default function DashboardPage() {
           <CourseCard />
         </div>
       </section>
-      <CtaCard />
+
+      <HeroSection img={IMG_PUBLIC.BG_CTA}>
+        <CtaContent />
+      </HeroSection>
     </main>
   );
 }
