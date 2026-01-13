@@ -4,7 +4,7 @@ import CtaContent from "@/components/card/cta/cta-content";
 import HeroContent from "@/components/card/hero/hero-content";
 import HeroSection from "@/components/card/hero/hero-section";
 import CourseWrap from "@/components/course/course-wrap";
-import { DataCourses } from "@/lib/data-dummy";
+import { dataCourses } from "@/lib/data-dummy";
 
 export default function DashboardPage() {
   return (
@@ -13,7 +13,7 @@ export default function DashboardPage() {
         <HeroContent />
       </HeroSection>
 
-      <CourseWrap data={DataCourses} />
+      <CourseWrap data={dataCourses} />
 
       <HeroSection img={IMG_PUBLIC.BG_CTA}>
         <CtaContent />

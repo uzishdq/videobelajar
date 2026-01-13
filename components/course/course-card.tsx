@@ -11,6 +11,8 @@ import Image from "next/image";
 import { IMG_PUBLIC } from "@/lib/constant";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Course } from "@/lib/data-dummy";
+import { formatToIDR } from "@/lib/helper";
+import { RatingStars } from "./rating-course";
 
 export default function CourseCard({ data }: Readonly<{ data: Course }>) {
   return (
@@ -48,13 +50,13 @@ export default function CourseCard({ data }: Readonly<{ data: Course }>) {
       </div>
       <CardFooter className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-1">
-          <span className="text-amber-300">★★★★☆</span>
+          <RatingStars rating={data.rating} />
           <span className=" text-sm text-muted-foreground">
             {data.rating} <span>({data.reviews})</span>
           </span>
         </div>
         <p className="text-primary font-bold text-xl md:text-2xl">
-          {data.price}
+          {formatToIDR(data.price)}
         </p>
       </CardFooter>
     </Card>

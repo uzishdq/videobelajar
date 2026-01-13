@@ -1,0 +1,40 @@
+function clampRating(rating: number, max: number = 5) {
+  return Math.min(Math.max(rating, 0), max);
+}
+
+export type StarType = "full" | "half" | "empty";
+
+const getStarType = (rating: number, value: number): StarType => {
+  if (rating >= value) {
+    return "full";
+  }
+
+  if (rating >= value - 0.5) {
+    return "half";
+  }
+
+  return "empty";
+};
+
+export function generateStars(rating: number, max: number = 5) {
+  const safeRating = clampRating(rating, max);
+
+  return Array.from({ length: max }, (_, i) => {
+    const value = i + 1;
+
+    return {
+      id: `star-${value}`,
+      type: getStarType(safeRating, value),
+    };
+  });
+}
+
+export function formatToIDR(value: number): string {
+  const result = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(value);
+
+  return result;
+}
