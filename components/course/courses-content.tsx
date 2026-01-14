@@ -30,6 +30,14 @@ import {
 import { Input } from "../ui/input";
 import CourseCard from "./course-card";
 import { dataCourses } from "@/lib/data-dummy";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
 
 type GroupKey = "bidangStudi" | "harga" | "durasi";
 
@@ -168,19 +176,19 @@ export default function CoursesContent() {
                 <div className="flex items-center gap-2">
                   <RadioGroupItem value="default" id="r1" />
                   <Label htmlFor="r1" className="text-base">
-                    Default
+                    Kurang dari 4 Jam
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
                   <RadioGroupItem value="comfortable" id="r2" />
                   <Label htmlFor="r2" className="text-base">
-                    Comfortable
+                    4 - 8 Jam
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
                   <RadioGroupItem value="compact" id="r3" />
                   <Label htmlFor="r3" className="text-base">
-                    Compact
+                    Lebih dari 8 Jam
                   </Label>
                 </div>
               </RadioGroup>
@@ -214,6 +222,27 @@ export default function CoursesContent() {
             <CourseCard key={data.id} data={data} />
           ))}
         </div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="/" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </section>
   );

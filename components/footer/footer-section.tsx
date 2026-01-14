@@ -66,9 +66,7 @@ export default function FooterSection() {
       <div className="w-full border-t-2" />
 
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-        <p className="order-2 md:order-1">
-          @2025 Gerobak Sayur All Rights Reserved.
-        </p>
+        <p className="order-2 md:order-1">@2026 uzishdq All Rights Reserved.</p>
         <div className="flex gap-3 order-1 md:order-2">
           {FOOTER_SOCIAL.map((item) => (
             <Link
