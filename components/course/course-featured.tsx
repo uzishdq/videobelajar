@@ -4,7 +4,7 @@ import React from "react";
 import CourseSkeleton from "./course-skeleton";
 import CourseCard from "./course-card";
 
-export default function CourseHeader({ data }: Readonly<{ data: Course[] }>) {
+export default function CourseFeatured({ data }: Readonly<{ data: Course[] }>) {
   const [activeTab, setActiveTab] = React.useState("all");
   const [loading, setLoading] = React.useState(false);
 
@@ -21,7 +21,7 @@ export default function CourseHeader({ data }: Readonly<{ data: Course[] }>) {
   };
   return (
     <div>
-      <div className="flex gap-4 mb-8 overflow-x-auto whitespace-nowrap px-4">
+      <div className="flex gap-4 mb-6 md:mb-8 overflow-x-auto whitespace-nowrap px-4">
         {tabs.map((tab) => (
           <button
             key={tab.value}
@@ -45,7 +45,7 @@ export default function CourseHeader({ data }: Readonly<{ data: Course[] }>) {
           Belum ada course di kategori ini.
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full gap-5">
+        <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 w-full gap-5">
           {loading
             ? Array.from({ length: 6 }).map((_, i) => (
                 <CourseSkeleton key={`skeleton-${activeTab}-${i}`} />

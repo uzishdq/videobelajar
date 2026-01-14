@@ -49,11 +49,7 @@ export const RatingStars = ({ rating, size = 16 }: Props) => {
           }
 
           return (
-            <Star
-              key={star.id}
-              size={size}
-              className="stroke-muted-foreground"
-            />
+            <Star key={star.id} size={size} className="stroke-amber-400" />
           );
         })}
       </div>
