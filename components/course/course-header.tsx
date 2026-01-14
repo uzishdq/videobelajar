@@ -1,12 +1,10 @@
 "use client";
-
-import React from "react";
-
 import { Course, tabs } from "@/lib/data-dummy";
+import React from "react";
 import CourseSkeleton from "./course-skeleton";
 import CourseCard from "./course-card";
 
-export default function CourseWrap({ data }: Readonly<{ data: Course[] }>) {
+export default function CourseHeader({ data }: Readonly<{ data: Course[] }>) {
   const [activeTab, setActiveTab] = React.useState("all");
   const [loading, setLoading] = React.useState(false);
 
@@ -21,19 +19,9 @@ export default function CourseWrap({ data }: Readonly<{ data: Course[] }>) {
 
     setTimeout(() => setLoading(false), 300);
   };
-
   return (
-    <section className="flex flex-col justify-center w-full max-w-300">
-      <div className="mb-12 text-left">
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">
-          Koleksi Video Pembelajaran Unggulan
-        </h2>
-        <p className="text-base text-gray-500">
-          Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!
-        </p>
-      </div>
-
-      <div className="flex gap-4 mb-12 overflow-x-scroll whitespace-nowrap px-4">
+    <div>
+      <div className="flex gap-4 mb-8 overflow-x-auto whitespace-nowrap px-4">
         {tabs.map((tab) => (
           <button
             key={tab.value}
@@ -67,6 +55,6 @@ export default function CourseWrap({ data }: Readonly<{ data: Course[] }>) {
               ))}
         </div>
       )}
-    </section>
+    </div>
   );
 }
