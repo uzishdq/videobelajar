@@ -78,7 +78,7 @@ export default function CoursesContent() {
                 <h4 className="ml-2 font-medium">Bidang Studi</h4>
               </div>
               <CollapsibleTrigger asChild>
-                <Button variant="ghost" size="icon" className="size-8">
+                <Button variant="link" size="icon" className="size-8">
                   <ChevronUp />
                   <span className="sr-only">Toggle</span>
                 </Button>
@@ -124,7 +124,7 @@ export default function CoursesContent() {
                 <h4 className="ml-2 font-medium">Harga</h4>
               </div>
               <CollapsibleTrigger asChild>
-                <Button variant="ghost" size="icon" className="size-8">
+                <Button variant="link" size="icon" className="size-8">
                   <ChevronUp />
                   <span className="sr-only">Toggle</span>
                 </Button>
@@ -162,7 +162,7 @@ export default function CoursesContent() {
                 <h4 className="ml-2 font-medium">Durasi</h4>
               </div>
               <CollapsibleTrigger asChild>
-                <Button variant="ghost" size="icon" className="size-8">
+                <Button variant="link" size="icon" className="size-8">
                   <ChevronUp />
                   <span className="sr-only">Toggle</span>
                 </Button>

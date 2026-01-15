@@ -1,3 +1,4 @@
+import CourseModul from "@/components/course/course-modul";
 import { RatingStars } from "@/components/course/rating-course";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +25,7 @@ import React from "react";
 export default function DetailCoursePage() {
   return (
     <section className="flex min-h-screen flex-col items-center px-7 py-5 md:px-32 md:py-16 space-y-6 md:space-y-9">
+      {/* HEADER */}
       <div className="relative flex items-center justify-center bg-black w-full min-w-[320px] h-100 max-h-100 rounded-[10px]">
         <Image
           src={IMG_PUBLIC.BG_HERO}
@@ -52,6 +54,7 @@ export default function DetailCoursePage() {
           </div>
         </div>
       </div>
+
       <div className="flex flex-col xl:flex-row gap-9">
         <Card className="w-full h-fit order-1 md:order-2">
           <CardHeader>
@@ -66,7 +69,7 @@ export default function DetailCoursePage() {
                   Rp 250k
                 </span>
               </h3>
-              <Badge className="rounded-md">Diskon 50%</Badge>
+              <Badge className="bg-accent rounded-md">Diskon 50%</Badge>
             </div>
             <p className="text-sm text-blue-600 font-medium">
               Penawaran spesial tersisa 2 hari lagi!
@@ -184,8 +187,8 @@ export default function DetailCoursePage() {
                 Kamu akan Mempelajari
               </CardTitle>
             </CardHeader>
-            <CardContent className="mx-6 p-5 space-y-4 rounded-[10px] border">
-              <h1>haiii</h1>
+            <CardContent>
+              <CourseModul />
             </CardContent>
           </Card>
           <Card className="w-full rounded-[10px]">

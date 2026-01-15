@@ -46,6 +46,7 @@ export default function FormNewsLetter() {
         />
         <Button
           type="submit"
+          variant="ghost"
           className="mt-2 md:mt-0 md:absolute md:top-1/2 md:right-2 md:-translate-y-1/2"
         >
           Subscribe

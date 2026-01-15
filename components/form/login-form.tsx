@@ -133,7 +133,7 @@ export default function LoginForm() {
               <span className="px-3 text-sm text-gray-500">atau</span>
               <div className="flex-1 border-t border-gray-300" />
             </div>
-            <Button type="button" variant="ghost" className="w-full">
+            <Button type="button" variant="outline" className="w-full">
               <Image
                 src={IMG_PUBLIC.GOOGLE}
                 alt="Google"
