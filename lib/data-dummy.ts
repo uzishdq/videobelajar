@@ -193,8 +193,8 @@ export type Courses = {
   title: string;
   desc: string;
   img: string;
-  instructor: User;
+  instructor: User[];
   category: Category;
-  reviews: Reviews;
+  reviews: Reviews[];
   price: number;
 };

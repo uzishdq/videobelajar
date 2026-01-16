@@ -10,7 +10,7 @@ export default function NotFound() {
       </p>
 
       <Link
-        href={ROUTES.PUBLIC.LOGIN}
+        href={ROUTES.PUBLIC.INDEX}
         className="mt-6 inline-block bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-hover transition"
       >
         Kembali

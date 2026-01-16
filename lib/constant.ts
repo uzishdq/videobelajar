@@ -1,11 +1,20 @@
 export const ROUTES = {
   PUBLIC: {
-    LOGIN: "/",
+    INDEX: "/",
+    LOGIN: "/login",
     REGISTER: "/register",
     FORGOT_PASSWORD: "/forgot-password",
   },
   AUTH: {
-    INDEX: "/dashboard",
+    COURSES: {
+      INDEX: "/courses",
+      DETAIL: "/courses/detail-course",
+    },
+    PROFILE: {
+      INDEX: "/profile",
+      KELAS: "/kelas",
+      PESANAN: "/pesanan",
+    },
   },
 };
 
