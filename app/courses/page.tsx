@@ -5,7 +5,10 @@ import React from "react";
 export default function CoursesPage() {
   return (
     <section className="flex min-h-screen flex-col items-center px-7 py-5 md:px-6 md:py-16 space-y-6 md:space-y-16">
-      <CourseSection>
+      <CourseSection
+        title="Koleksi Video Pembelajaran Unggulan"
+        description="Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!"
+      >
         <CoursesContent />
       </CourseSection>
     </section>

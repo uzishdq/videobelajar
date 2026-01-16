@@ -1,4 +1,6 @@
+import CourseCard from "@/components/course/course-card";
 import CourseModul from "@/components/course/course-modul";
+import CourseSection from "@/components/course/course-section";
 import { RatingStars } from "@/components/course/rating-course";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { IMG_PUBLIC } from "@/lib/constant";
+import { dataCourses2 } from "@/lib/data-dummy";
 import {
   BookMinus,
   FileBadge,
@@ -246,6 +249,17 @@ export default function DetailCoursePage() {
           </Card>
         </div>
       </div>
+      <CourseSection
+        title="Video Pembelajaran Terkait Lainnya"
+        description="Ekspansi Pengetahuan Anda dengan Rekomendasi Spesial Kami!"
+        className="max-w-400"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-5">
+          {dataCourses2.map((data) => (
+            <CourseCard key={data.id} data={data} />
+          ))}
+        </div>
+      </CourseSection>
     </section>
   );
 }

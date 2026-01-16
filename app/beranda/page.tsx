@@ -15,7 +15,10 @@ export default function BerandaPage() {
         <HeroContent />
       </HeroSection>
 
-      <CourseSection>
+      <CourseSection
+        title="Koleksi Video Pembelajaran Unggulan"
+        description="Jelajahi Dunia Pengetahuan Melalui Pilihan Kami!"
+      >
         <CourseFeatured data={dataCourses} />
       </CourseSection>
 
