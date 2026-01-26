@@ -4,12 +4,12 @@ export const ROUTES = {
     LOGIN: "/login",
     REGISTER: "/register",
     FORGOT_PASSWORD: "/forgot-password",
-  },
-  AUTH: {
     COURSES: {
       INDEX: "/courses",
       DETAIL: "/courses/detail-course",
     },
+  },
+  AUTH: {
     PROFILE: {
       INDEX: "/profile",
       KELAS: "/kelas",
@@ -90,3 +90,31 @@ export const FOOTER_SOCIAL = [
     svg: "https://www.svgrepo.com/show/475689/twitter-color.svg",
   },
 ];
+
+export const LABEL = {
+  INPUT: {
+    SUCCESS: {
+      SAVED: "Saved successfully.",
+      UPDATE: "Updated successfully.",
+      DELETE: "Deleted successfully.",
+    },
+    FAILED: {
+      SAVED: "Couldn’t save data.",
+      UPDATE: "Couldn’t update data.",
+      DELETE: "Couldn’t delete data.",
+    },
+  },
+  SUCCESS: {
+    REVALIDATE: "Data is now fresh and updated.",
+    DATA_FOUND: "Data found",
+    FETCH: "Data fetched successfully",
+  },
+  ERROR: {
+    404: "Page Not Found",
+    DATA_NOT_FOUND: "Data not found.",
+    INVALID_FIELD: "Invalid input. Please check your data.",
+    SERVER: "Something went wrong on our server. Please try again later.",
+    NOT_LOGIN: "You need to sign in to continue.",
+    UNAUTHORIZED: "You’re not authorized to perform this action.",
+  },
+};

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "0f4b8c8a-6a8c-4e2a-9f73-2a9c9e6a0d11",
+    "img": "https://picsum.photos/seed/finance-1/600/400",
+    "title": "Digital Marketing Fundamentals",
+    "desc": "Pelajari dasar-dasar pemasaran digital, SEO, dan social media marketing.",
+    "instructor": "Andi Pratama",
+    "job": "Digital Marketing Specialist",
+    "rating": 4.7,
+    "reviews": 820,
+    "price": 249000,
+    "category": "pemasaran"
+  },
+  {
+    "id": "1c9d7a3e-2d89-4b87-b21a-6a5f7d3e9c22",
+    "img": "https://picsum.photos/seed/finance-2/600/400",
+    "title": "Content Marketing Strategy",
+    "desc": "Bangun strategi konten yang efektif untuk meningkatkan brand awareness.",
+    "instructor": "Rina Kurnia",
+    "job": "Content Strategist",
+    "rating": 4.6,
+    "reviews": 540,
+    "price": 199000,
+    "category": "pemasaran"
+  },
+  {
+    "id": "2a7f5c9b-8b2e-4cfa-9e91-1f6a9b3c0d33",
+    "img": "https://picsum.photos/seed/finance-3/600/400",
+    "title": "UI Design for Beginners",
+    "desc": "Pelajari prinsip UI design dan cara membuat tampilan aplikasi yang menarik.",
+    "instructor": "Dewi Lestari",
+    "job": "UI Designer",
+    "rating": 4.8,
+    "reviews": 960,
+    "price": 279000,
+    "category": "desain"
+  },
+  {
+    "id": "3d6b9a8c-0c3e-4e5b-8f4d-9c2e1b7a4f44",
+    "img": "https://picsum.photos/seed/finance-4/600/400",
+    "title": "Graphic Design Essentials",
+    "desc": "Kuasai dasar desain grafis untuk kebutuhan branding dan promosi.",
+    "instructor": "Bagus Santoso",
+    "job": "Graphic Designer",
+    "rating": 4.5,
+    "reviews": 430,
+    "price": 189000,
+    "category": "desain"
+  },
+  {
+    "id": "4f8a9e2d-1b2c-4f91-9e3d-0b6c7a8d5f55",
+    "img": "https://picsum.photos/seed/finance-5/600/400",
+    "title": "Personal Growth & Mindset",
+    "desc": "Bangun mindset positif dan kebiasaan produktif untuk pengembangan diri.",
+    "instructor": "Fajar Nugroho",
+    "job": "Life Coach",
+    "rating": 4.9,
+    "reviews": 1100,
+    "price": 159000,
+    "category": "pengembangan"
+  },
+  {
+    "id": "5b9d3c7a-8e1f-4b8d-9c21-6f7a8b2e0f66",
+    "img": "https://picsum.photos/seed/finance-6/600/400",
+    "title": "Time Management Mastery",
+    "desc": "Pelajari cara mengatur waktu secara efektif untuk kehidupan dan karier.",
+    "instructor": "Sinta Mahardika",
+    "job": "Productivity Trainer",
+    "rating": 4.6,
+    "reviews": 670,
+    "price": 149000,
+    "category": "pengembangan"
+  },
+  {
+    "id": "6a8c9d7b-2e3f-4a9c-bf1d-0e6b5a7f8c77",
+    "img": "https://picsum.photos/seed/finance-7/600/400",
+    "title": "Business Model Canvas",
+    "desc": "Pelajari cara menyusun model bisnis yang efektif dan berkelanjutan.",
+    "instructor": "Hendra Wijaya",
+    "job": "Business Consultant",
+    "rating": 4.7,
+    "reviews": 780,
+    "price": 299000,
+    "category": "bisnis"
+  },
+  {
+    "id": "7f2e9b6c-8d5a-4a91-bc3e-1f9d7a8e0b88",
+    "img": "https://picsum.photos/seed/finance-8/600/400",
+    "title": "Startup Fundamentals",
+    "desc": "Panduan lengkap membangun startup dari ide hingga eksekusi.",
+    "instructor": "Arief Putra",
+    "job": "Startup Mentor",
+    "rating": 4.8,
+    "reviews": 920,
+    "price": 349000,
+    "category": "bisnis"
+  },
+  {
+    "id": "8d9a7c2b-3e1f-4b8a-9c5d-6e0f1a7b2c99",
+    "img": "https://picsum.photos/seed/finance-9/600/400",
+    "title": "Social Media Marketing",
+    "desc": "Optimalkan strategi pemasaran melalui platform media sosial.",
+    "instructor": "Nadia Rahma",
+    "job": "Social Media Manager",
+    "rating": 4.6,
+    "reviews": 610,
+    "price": 219000,
+    "category": "pemasaran"
+  },
+  {
+    "id": "9f1b7a8d-6c2e-4a9f-bd3e-0c5a7e8f1d00",
+    "img": "https://picsum.photos/seed/finance-8/600/400",
+    "title": "Branding & Visual Identity",
+    "desc": "Bangun identitas brand yang kuat dan konsisten.",
+    "instructor": "Kevin Aditya",
+    "job": "Brand Designer",
+    "rating": 4.7,
+    "reviews": 500,
+    "price": 259000,
+    "category": "desain"
+  }
+]

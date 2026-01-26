@@ -29,7 +29,6 @@ import {
 } from "../ui/select";
 import { Input } from "../ui/input";
 import CourseCard from "./course-card";
-import { dataCourses } from "@/lib/data-dummy";
 import {
   Pagination,
   PaginationContent,
@@ -38,15 +37,27 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import { Course } from "@/lib/data-dummy";
+import { LABEL } from "@/lib/constant";
 
 type GroupKey = "bidangStudi" | "harga" | "durasi";
 
-export default function CoursesContent() {
+export default function CoursesContent({
+  data,
+}: Readonly<{ data: Course[] | null }>) {
   const [isOpen, setIsOpen] = React.useState<Record<GroupKey, boolean>>({
     bidangStudi: true,
     harga: true,
     durasi: true,
   });
+
+  if (!data) {
+    return (
+      <div className="text-center p-10 text-gray-400 text-base font-medium border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+        {LABEL.ERROR.DATA_NOT_FOUND}
+      </div>
+    );
+  }
 
   const handleOpenChange = (key: GroupKey) => (open: boolean) => {
     setIsOpen((prev) => ({
@@ -218,8 +229,8 @@ export default function CoursesContent() {
           <Input type="text" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 w-full gap-5">
-          {dataCourses.map((data) => (
-            <CourseCard key={data.id} data={data} />
+          {data.map((item) => (
+            <CourseCard key={item.id} data={item} />
           ))}
         </div>
         <Pagination>

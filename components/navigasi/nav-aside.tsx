@@ -16,13 +16,13 @@ export default function NavAside() {
         <CardContent className="flex flex-col items-center justify-center space-y-2">
           <Link
             href={ROUTES.PUBLIC.REGISTER}
-            className="w-full text-center text-accent bg-accent/20 font-bold py-3 rounded-md"
+            className="w-full text-center text-accent bg-accent/20 hover:bg-white hover:text-muted-foreground font-bold py-3 rounded-md"
           >
             Profile Saya
           </Link>
           <Link
             href={ROUTES.PUBLIC.REGISTER}
-            className="w-full text-center text-accent bg-accent/20 font-bold py-3 rounded-md"
+            className="w-full text-center text-accent bg-accent/20 hover:bg-white hover:text-muted-foreground font-bold py-3 rounded-md"
           >
             Kelas Saya
           </Link>

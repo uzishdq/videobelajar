@@ -3,10 +3,21 @@ import { Course, tabs } from "@/lib/data-dummy";
 import React from "react";
 import CourseSkeleton from "./course-skeleton";
 import CourseCard from "./course-card";
+import { LABEL } from "@/lib/constant";
 
-export default function CourseFeatured({ data }: Readonly<{ data: Course[] }>) {
+export default function CourseFeatured({
+  data,
+}: Readonly<{ data: Course[] | null }>) {
   const [activeTab, setActiveTab] = React.useState("all");
   const [loading, setLoading] = React.useState(false);
+
+  if (!data) {
+    return (
+      <div className="text-center p-10 text-gray-400 text-base font-medium border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+        {LABEL.ERROR.DATA_NOT_FOUND}
+      </div>
+    );
+  }
 
   const filteredCourses =
     activeTab === "all"

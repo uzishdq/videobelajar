@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/lib/constant";
+import Link from "next/link";
 
 export default function HeroContent() {
   return (
@@ -13,8 +15,10 @@ export default function HeroContent() {
         berpartisipasi dalam latihan interaktif yang akan meningkatkan pemahaman
         Anda.
       </p>
-      <Button type="button" className="mt-6">
-        Temukan Video Course untuk Dipelajari!
+      <Button type="button" className="mt-6" asChild>
+        <Link href={ROUTES.PUBLIC.COURSES.INDEX}>
+          Temukan Video Course untuk Dipelajari!
+        </Link>
       </Button>
     </div>
   );
