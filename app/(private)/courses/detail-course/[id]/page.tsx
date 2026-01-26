@@ -25,7 +25,13 @@ import {
 import Image from "next/image";
 import React from "react";
 
-export default function DetailCoursePage() {
+export default async function DetailCoursePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
   return (
     <section className="flex min-h-screen flex-col items-center px-7 py-5 md:px-32 md:py-16 space-y-6 md:space-y-9">
       {/* HEADER */}
@@ -249,6 +255,7 @@ export default function DetailCoursePage() {
           </Card>
         </div>
       </div>
+
       <CourseSection
         title="Video Pembelajaran Terkait Lainnya"
         description="Ekspansi Pengetahuan Anda dengan Rekomendasi Spesial Kami!"

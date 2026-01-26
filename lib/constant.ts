@@ -6,7 +6,7 @@ export const ROUTES = {
     FORGOT_PASSWORD: "/forgot-password",
     COURSES: {
       INDEX: "/courses",
-      DETAIL: "/courses/detail-course",
+      DETAIL: (id: string) => `/courses/detail-course/${id}`,
     },
   },
   AUTH: {

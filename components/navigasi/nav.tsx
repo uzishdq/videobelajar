@@ -8,7 +8,7 @@ export default function Nav() {
     <header className="bg-white w-full max-h-20 shadow">
       <nav className="flex items-center justify-between px-6 md:px-32 py-2">
         <Link
-          href={ROUTES.PUBLIC.LOGIN}
+          href={ROUTES.PUBLIC.INDEX}
           className="relative w-38 h-10.5 md:w-59.25 md:h-14"
         >
           <Image
