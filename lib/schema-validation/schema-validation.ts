@@ -27,3 +27,9 @@ export const RegisterSchema = z
 export const NewsLetterSchema = z.object({
   email: emailSchema,
 });
+
+export const ProfileSchema = z.object({
+  name: stringSchema(5, 100),
+  email: emailSchema,
+  phoneNumber: phoneSchema,
+});

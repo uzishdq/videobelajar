@@ -38,3 +38,9 @@ export function formatToIDR(value: number): string {
 
   return result;
 }
+
+export const isPathActive = (pathname: string, target: string) => {
+  if (target === "/") return pathname === "/";
+
+  return pathname === target || pathname.startsWith(`${target}/`);
+};
