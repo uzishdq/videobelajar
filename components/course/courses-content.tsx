@@ -226,7 +226,8 @@ export default function CoursesContent({
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Input type="text" />
+
+          <Input type="text" placeholder="Cari Kelas" className="bg-white" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 w-full gap-5">
           {data.map((item) => (
