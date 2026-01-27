@@ -1,6 +1,11 @@
 "use client";
 
-import { FOOTER_GROUPS, FOOTER_SOCIAL, IMG_PUBLIC } from "@/lib/constant";
+import {
+  FOOTER_GROUPS,
+  FOOTER_SOCIAL,
+  IMG_PUBLIC,
+  ROUTES,
+} from "@/lib/constant";
 import Image from "next/image";
 import React from "react";
 import FooterGroup from "./footer-group";
@@ -66,7 +71,13 @@ export default function FooterSection() {
       <div className="w-full border-t-2" />
 
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-        <p className="order-2 md:order-1">@2026 uzishdq All Rights Reserved.</p>
+        <p className="order-2 md:order-1">
+          @2026{" "}
+          <Link href={ROUTES.BY} target="_blank" className="hover:underline">
+            uzishdq
+          </Link>{" "}
+          All Rights Reserved.
+        </p>
         <div className="flex gap-3 order-1 md:order-2">
           {FOOTER_SOCIAL.map((item) => (
             <Link

@@ -1,4 +1,5 @@
 export const ROUTES = {
+  BY: "https://uzishdq.vercel.app/",
   PUBLIC: {
     INDEX: "/",
     LOGIN: "/login",

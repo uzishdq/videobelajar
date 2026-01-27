@@ -26,6 +26,13 @@ import { IMG_PUBLIC, ROUTES } from "@/lib/constant";
 import Image from "next/image";
 import React from "react";
 import { Eye, EyeOff } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -99,7 +106,19 @@ export default function RegisterForm() {
                     No. Hp<span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} />
+                    <div className="flex flex-row items-center justify-center gap-2">
+                      <Select defaultValue="+62">
+                        <SelectTrigger className="w-27.5">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent position="item-aligned">
+                          <SelectItem value="+62">🇮🇩 +62</SelectItem>
+                          <SelectItem value="+60">🇲🇾 +60</SelectItem>
+                          <SelectItem value="+65">🇸🇬 +65</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Input type="number" {...field} />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

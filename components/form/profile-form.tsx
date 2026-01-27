@@ -21,23 +21,44 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import Link from "next/link";
-import { IMG_PUBLIC, ROUTES } from "@/lib/constant";
+import { IMG_PUBLIC } from "@/lib/constant";
 import Image from "next/image";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { User } from "@/lib/data-dummy";
+import { toast } from "sonner";
+import React from "react";
+import { updateUser } from "@/server/action/user-action";
 
-export default function ProfileForm() {
+export default function ProfileForm({ data }: Readonly<{ data: User }>) {
+  const [isPending, startTransition] = React.useTransition();
+
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      phoneNumber: "",
+      id: data.id,
+      name: data.name ?? "",
+      email: data.email ?? "",
+      phoneNumber: data.phone ?? "",
     },
     mode: "onChange",
   });
 
-  function onSubmit(values: z.infer<typeof ProfileSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof ProfileSchema>) {
+    startTransition(async () => {
+      const response = await updateUser(values);
+
+      if (!response.ok) {
+        toast.error(response.message);
+      }
+
+      toast.success(response.message);
+    });
   }
 
   return (
@@ -99,7 +120,19 @@ export default function ProfileForm() {
                   <FormItem className="w-full">
                     <FormLabel>No.Hp</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <div className="flex flex-row items-center justify-center gap-2">
+                        <Select defaultValue="+62">
+                          <SelectTrigger className="w-27.5">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent position="item-aligned">
+                            <SelectItem value="+62">🇮🇩 +62</SelectItem>
+                            <SelectItem value="+60">🇲🇾 +60</SelectItem>
+                            <SelectItem value="+65">🇸🇬 +65</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Input type="number" {...field} />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -107,8 +140,8 @@ export default function ProfileForm() {
               />
             </div>
 
-            <Button type="submit" className="w-full">
-              Simpan
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? "Loading..." : "Simpan"}
             </Button>
           </form>
         </Form>

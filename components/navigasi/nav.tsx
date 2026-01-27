@@ -38,7 +38,7 @@ export default function Nav() {
             <p className="hidden md:block">kategori</p>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center">
+                <button className="flex items-center cursor-pointer">
                   <Menu className="md:hidden size-6" />
 
                   <Avatar className="hidden md:flex size-9 md:size-12 rounded-lg">

@@ -29,6 +29,7 @@ export const NewsLetterSchema = z.object({
 });
 
 export const ProfileSchema = z.object({
+  id: z.uuid("Format ID tidak valid."),
   name: stringSchema(5, 100),
   email: emailSchema,
   phoneNumber: phoneSchema,

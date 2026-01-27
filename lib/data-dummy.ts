@@ -60,6 +60,8 @@ export const dataCourses2: Course[] = [
 
 export type User = {
   id: string;
+  email: string;
+  phone: string;
   name: string;
   position: string;
   job: string;
