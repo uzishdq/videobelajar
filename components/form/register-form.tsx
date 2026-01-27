@@ -111,7 +111,7 @@ export default function RegisterForm() {
                         <SelectTrigger className="w-27.5">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent position="item-aligned">
+                        <SelectContent position="popper">
                           <SelectItem value="+62">🇮🇩 +62</SelectItem>
                           <SelectItem value="+60">🇲🇾 +60</SelectItem>
                           <SelectItem value="+65">🇸🇬 +65</SelectItem>

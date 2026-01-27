@@ -32,6 +32,7 @@ import CourseCard from "./course-card";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -39,17 +40,135 @@ import {
 } from "../ui/pagination";
 import { Course } from "@/lib/data-dummy";
 import { LABEL } from "@/lib/constant";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type GroupKey = "bidangStudi" | "harga" | "durasi";
 
+interface ICoursesContent {
+  data: Course[] | null;
+  meta?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export default function CoursesContent({
   data,
-}: Readonly<{ data: Course[] | null }>) {
+  meta,
+}: Readonly<ICoursesContent>) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [isOpen, setIsOpen] = React.useState<Record<GroupKey, boolean>>({
     bidangStudi: true,
     harga: true,
     durasi: true,
   });
+
+  const [selectedCategories, setSelectedCategories] = React.useState<string[]>(
+    searchParams.get("category")?.split(",") || [],
+  );
+  const [priceStart, setPriceStart] = React.useState(
+    searchParams.get("priceStart") || "",
+  );
+  const [priceEnd, setPriceEnd] = React.useState(
+    searchParams.get("priceEnd") || "",
+  );
+  const [selectedDuration, setSelectedDuration] = React.useState(
+    searchParams.get("duration") || "",
+  );
+  const [sortBy, setSortBy] = React.useState(searchParams.get("sortBy") || "");
+  const [searchQuery, setSearchQuery] = React.useState(
+    searchParams.get("search") || "",
+  );
+
+  const handleOpenChange = (key: GroupKey) => (open: boolean) => {
+    setIsOpen((prev) => ({
+      ...prev,
+      [key]: open,
+    }));
+  };
+
+  const updateURL = (updates: Record<string, string | null>) => {
+    const params = new URLSearchParams(searchParams);
+
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+    });
+
+    // Reset ke halaman 1 saat filter berubah
+    if (!updates.page) {
+      params.set("page", "1");
+    }
+
+    router.push(`?${params.toString()}`);
+  };
+
+  const handleCategoryChange = (category: string, checked: boolean) => {
+    let newCategories: string[];
+
+    if (checked) {
+      newCategories = [...selectedCategories, category];
+    } else {
+      newCategories = selectedCategories.filter((c) => c !== category);
+    }
+
+    setSelectedCategories(newCategories);
+    updateURL({
+      category: newCategories.length > 0 ? newCategories.join(",") : null,
+    });
+  };
+
+  const handlePriceFilter = () => {
+    updateURL({
+      priceStart: priceStart || null,
+      priceEnd: priceEnd || null,
+    });
+  };
+
+  const handleDurationChange = (duration: string) => {
+    setSelectedDuration(duration);
+    updateURL({ duration: duration || null });
+  };
+
+  const handleSortChange = (value: string) => {
+    setSortBy(value);
+    updateURL({ sortBy: value });
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    // Debounce search
+    const timeoutId = setTimeout(() => {
+      updateURL({ search: value || null });
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  };
+
+  const handleReset = () => {
+    setSelectedCategories([]);
+    setPriceStart("");
+    setPriceEnd("");
+    setSelectedDuration("");
+    setSortBy("");
+    setSearchQuery("");
+    router.push("?page=1&limit=10");
+  };
+
+  const createPageURL = (pageNumber: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", pageNumber.toString());
+    return `?${params.toString()}`;
+  };
 
   if (!data) {
     return (
@@ -59,12 +178,8 @@ export default function CoursesContent({
     );
   }
 
-  const handleOpenChange = (key: GroupKey) => (open: boolean) => {
-    setIsOpen((prev) => ({
-      ...prev,
-      [key]: open,
-    }));
-  };
+  const currentPage = meta?.page || 1;
+  const totalPages = meta?.totalPages || 1;
 
   return (
     <section className="flex flex-col items-start justify-between md:flex-row gap-10">
@@ -74,7 +189,9 @@ export default function CoursesContent({
             Filter
           </CardTitle>
           <CardAction>
-            <Button variant="ghost">Reset</Button>
+            <Button variant="ghost" onClick={handleReset}>
+              Reset
+            </Button>
           </CardAction>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -97,30 +214,28 @@ export default function CoursesContent({
             </div>
             <CollapsibleContent className="flex flex-col gap-2">
               <div className="flex flex-col px-1 py-2 gap-3 text-muted-foreground">
-                <div className="flex items-center gap-3">
-                  <Checkbox id="pemasaran" className="size-4.5" />
-                  <Label htmlFor="pemasaran" className="text-base">
-                    Pemasaran
-                  </Label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Checkbox id="digital-teknologi" />
-                  <Label htmlFor="digital-teknologi" className="text-base">
-                    Digital & Teknologi
-                  </Label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Checkbox id="pengembangan-diri" />
-                  <Label htmlFor="pengembangan-diri" className="text-base">
-                    Pengembangan Diri
-                  </Label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Checkbox id="bisnis-manajemen" />
-                  <Label htmlFor="bisnis-manajemen" className="text-base">
-                    Bisnis Manajemen
-                  </Label>
-                </div>
+                {[
+                  "Pemasaran",
+                  "Digital & Teknologi",
+                  "Pengembangan Diri",
+                  "Bisnis Manajemen",
+                ].map((category) => (
+                  <div key={category} className="flex items-center gap-3">
+                    <Checkbox
+                      id={category}
+                      checked={selectedCategories.includes(category)}
+                      onCheckedChange={(checked) =>
+                        handleCategoryChange(category, checked as boolean)
+                      }
+                    />
+                    <Label
+                      htmlFor={category}
+                      className="text-base cursor-pointer"
+                    >
+                      {category}
+                    </Label>
+                  </div>
+                ))}
               </div>
             </CollapsibleContent>
           </Collapsible>
@@ -142,23 +257,22 @@ export default function CoursesContent({
               </CollapsibleTrigger>
             </div>
             <CollapsibleContent className="flex flex-col gap-2">
-              <div className="flex flex-col px-1 py-2 gap-3 text-muted-foreground">
-                <div className="flex items-center gap-3">
-                  <Checkbox id="pemasaran" />
-                  <Label htmlFor="pemasaran">Pemasaran</Label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Checkbox id="digital-teknologi" />
-                  <Label htmlFor="digital-teknologi">Digital & Teknologi</Label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Checkbox id="pengembangan-diri" />
-                  <Label htmlFor="pengembangan-diri">Pengembangan Diri</Label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Checkbox id="bisnis-manajemen" />
-                  <Label htmlFor="bisnis-manajemen">Bisnis Manajemen</Label>
-                </div>
+              <div className="flex flex-col px-1 py-2 gap-3">
+                <Input
+                  type="number"
+                  placeholder="Harga Minimum"
+                  value={priceStart}
+                  onChange={(e) => setPriceStart(e.target.value)}
+                />
+                <Input
+                  type="number"
+                  placeholder="Harga Maximum"
+                  value={priceEnd}
+                  onChange={(e) => setPriceEnd(e.target.value)}
+                />
+                <Button onClick={handlePriceFilter} className="w-full">
+                  Terapkan
+                </Button>
               </div>
             </CollapsibleContent>
           </Collapsible>
@@ -181,24 +295,25 @@ export default function CoursesContent({
             </div>
             <CollapsibleContent className="flex flex-col">
               <RadioGroup
-                defaultValue="comfortable"
+                value={selectedDuration}
+                onValueChange={handleDurationChange}
                 className="mb-2 text-muted-foreground"
               >
                 <div className="flex items-center gap-2">
-                  <RadioGroupItem value="default" id="r1" />
-                  <Label htmlFor="r1" className="text-base">
+                  <RadioGroupItem value="short" id="short" />
+                  <Label htmlFor="short" className="text-base cursor-pointer">
                     Kurang dari 4 Jam
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <RadioGroupItem value="comfortable" id="r2" />
-                  <Label htmlFor="r2" className="text-base">
+                  <RadioGroupItem value="medium" id="medium" />
+                  <Label htmlFor="medium" className="text-base cursor-pointer">
                     4 - 8 Jam
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
-                  <RadioGroupItem value="compact" id="r3" />
-                  <Label htmlFor="r3" className="text-base">
+                  <RadioGroupItem value="long" id="long" />
+                  <Label htmlFor="long" className="text-base cursor-pointer">
                     Lebih dari 8 Jam
                   </Label>
                 </div>
@@ -210,11 +325,11 @@ export default function CoursesContent({
 
       <div className="w-full space-y-8">
         <div className="flex flex-row gap-4">
-          <Select>
+          <Select value={sortBy} onValueChange={handleSortChange}>
             <SelectTrigger className="w-45 bg-white">
               <SelectValue placeholder="Urutkan" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent position="popper">
               <SelectGroup>
                 <SelectLabel>Urutan Berdasarkan</SelectLabel>
                 <SelectItem value="HTR">Harga Terendah</SelectItem>
@@ -227,34 +342,99 @@ export default function CoursesContent({
             </SelectContent>
           </Select>
 
-          <Input type="text" placeholder="Cari Kelas" className="bg-white" />
+          <Input
+            type="text"
+            placeholder="Cari Kelas"
+            className="bg-white"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 w-full gap-5">
-          {data.map((item) => (
-            <CourseCard key={item.id} data={item} />
-          ))}
-        </div>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="/" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">2</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        {data.length === 0 ? (
+          <div className="text-center p-10 text-gray-400 text-base font-medium border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
+            Tidak ada kelas yang ditemukan
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 w-full gap-5">
+              {data.map((item) => (
+                <CourseCard key={item.id} data={item} />
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages >= 1 && (
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href={
+                        currentPage > 1 ? createPageURL(currentPage - 1) : "#"
+                      }
+                      aria-disabled={currentPage === 1}
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : ""
+                      }
+                    />
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (pageNum) => {
+                      const showPage =
+                        pageNum === 1 ||
+                        pageNum === totalPages ||
+                        (pageNum >= currentPage - 1 &&
+                          pageNum <= currentPage + 1);
+
+                      if (!showPage) {
+                        if (
+                          pageNum === currentPage - 2 ||
+                          pageNum === currentPage + 2
+                        ) {
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <PaginationEllipsis />
+                            </PaginationItem>
+                          );
+                        }
+                        return null;
+                      }
+
+                      return (
+                        <PaginationItem key={pageNum}>
+                          <PaginationLink
+                            href={createPageURL(pageNum)}
+                            isActive={currentPage === pageNum}
+                          >
+                            {pageNum}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    },
+                  )}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      href={
+                        currentPage < totalPages
+                          ? createPageURL(currentPage + 1)
+                          : "#"
+                      }
+                      aria-disabled={currentPage === totalPages}
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : ""
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
+          </>
+        )}
       </div>
     </section>
   );

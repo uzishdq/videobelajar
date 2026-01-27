@@ -7,7 +7,7 @@ import { IMG_PUBLIC } from "@/lib/constant";
 import { getCourses } from "@/server/data/course-data";
 
 export default async function Home() {
-  const course = await getCourses();
+  const course = await getCourses({ minRating: 4.5, limit: 6 });
 
   return (
     <>

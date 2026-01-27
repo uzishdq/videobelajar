@@ -53,11 +53,11 @@ export default function ProfileForm({ data }: Readonly<{ data: User }>) {
     startTransition(async () => {
       const response = await updateUser(values);
 
-      if (!response.ok) {
+      if (response.ok) {
+        toast.success(response.message);
+      } else {
         toast.error(response.message);
       }
-
-      toast.success(response.message);
     });
   }
 
@@ -125,7 +125,7 @@ export default function ProfileForm({ data }: Readonly<{ data: User }>) {
                           <SelectTrigger className="w-27.5">
                             <SelectValue />
                           </SelectTrigger>
-                          <SelectContent position="item-aligned">
+                          <SelectContent position="popper">
                             <SelectItem value="+62">🇮🇩 +62</SelectItem>
                             <SelectItem value="+60">🇲🇾 +60</SelectItem>
                             <SelectItem value="+65">🇸🇬 +65</SelectItem>

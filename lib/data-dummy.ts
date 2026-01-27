@@ -91,5 +91,15 @@ export type Courses = {
 };
 
 export type APIResponse<T> =
-  | { ok: true; data: T; message: string }
+  | {
+      ok: true;
+      data: T;
+      message: string;
+      meta?: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+      };
+    }
   | { ok: false; data: null; message: string };
