@@ -1,9 +1,23 @@
-import { IMG_PUBLIC, ROUTES } from "@/lib/constant";
+"use client";
+
+import { HIDDEN_PATHS, IMG_PUBLIC, ROUTES } from "@/lib/constant";
 import Image from "next/image";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { LogOutIcon, Menu } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Nav() {
+  const path = usePathname();
+
   return (
     <header className="bg-white w-full max-h-20 shadow">
       <nav className="flex items-center justify-between px-6 md:px-32 py-2">
@@ -19,48 +33,46 @@ export default function Nav() {
           />
         </Link>
 
-        {/* <div className="flex items-center gap-2">
-          <p className="hidden md:block">kategori</p>
-          <Avatar className="size-9 md:size-12 rounded-lg">
-            <AvatarImage src={IMG_PUBLIC.DEFAULT_PROFILE} />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="secondary" size="icon" className="rounded-full">
-              <CircleUser className="h-5 w-5" />
-              <span className="sr-only">Toggle user menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <ButtonRefreshData />
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href={ROUTES.AUTH.USER.SETTING} className="w-full">
-                Setting
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link href={ROUTES.AUTH.USER.PROFILE} className="w-full">
-                Profile
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href={ROUTES.AUTH.USER.UNDUR_DIRI} className="w-full">
-                Undur Diri
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <ButtonSignOut />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        </div> */}
+        {!HIDDEN_PATHS.includes(path) && (
+          <div className="flex items-center gap-2">
+            <p className="hidden md:block">kategori</p>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center">
+                  <Menu className="md:hidden size-6" />
+
+                  <Avatar className="hidden md:flex size-9 md:size-12 rounded-lg">
+                    <AvatarImage src={IMG_PUBLIC.DEFAULT_PROFILE} />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link href={ROUTES.AUTH.PROFILE.INDEX} className="w-full">
+                    Profil Saya
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={ROUTES.AUTH.PROFILE.KELAS} className="w-full">
+                    Kelas Saya
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href={ROUTES.AUTH.PROFILE.PESANAN} className="w-full">
+                    Pesanan Saya
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem variant="destructive">
+                  <LogOutIcon />
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
       </nav>
     </header>
   );

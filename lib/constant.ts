@@ -18,6 +18,12 @@ export const ROUTES = {
   },
 };
 
+export const HIDDEN_PATHS = [
+  ROUTES.PUBLIC.LOGIN,
+  ROUTES.PUBLIC.REGISTER,
+  ROUTES.PUBLIC.FORGOT_PASSWORD,
+];
+
 export const IMG_PUBLIC = {
   LOGO: "/assets/logo.png",
   BG_HERO: "/assets/bg-hero.jpg",
