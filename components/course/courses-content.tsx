@@ -67,7 +67,7 @@ export default function CoursesContent({
   };
 
   return (
-    <section className="flex flex-col md:flex-row gap-10">
+    <section className="flex flex-col items-start justify-between md:flex-row gap-10">
       <Card className="w-full h-fit md:max-w-sm">
         <CardHeader>
           <CardTitle className="text-[18px] text-muted-foreground">
@@ -208,7 +208,7 @@ export default function CoursesContent({
         </CardContent>
       </Card>
 
-      <div className="space-y-8">
+      <div className="w-full space-y-8">
         <div className="flex flex-row gap-4">
           <Select>
             <SelectTrigger className="w-45 bg-white">
