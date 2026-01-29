@@ -81,8 +81,8 @@ function DialogEdit({ value }: Readonly<TDialog>) {
   return (
     <FormDialog
       type="edit"
-      title="Edit Barang"
-      description="Edit data barang, lalu klik Update untuk mengonfirmasi."
+      title="Edit Course"
+      description="Edit data course, lalu klik Update untuk mengonfirmasi."
     >
       <EditDeleteCourseForm data={value} mode="update" />
     </FormDialog>
@@ -91,7 +91,7 @@ function DialogEdit({ value }: Readonly<TDialog>) {
 
 function DialogDelete({ value }: Readonly<TDialog>) {
   return (
-    <FormDialog type="delete" title="Delete Barang">
+    <FormDialog type="delete" title="Delete Course">
       <EditDeleteCourseForm data={value} mode="delete" />
     </FormDialog>
   );
