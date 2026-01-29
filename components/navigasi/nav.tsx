@@ -51,6 +51,12 @@ export default function Nav() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
+                  <Link href={ROUTES.AUTH.ADMIN.INDEX} className="w-full">
+                    Admin
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
                   <Link href={ROUTES.AUTH.PROFILE.INDEX} className="w-full">
                     Profil Saya
                   </Link>

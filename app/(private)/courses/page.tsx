@@ -21,7 +21,7 @@ export default async function CoursesPage({ searchParams }: ICoursesPage) {
 
   const response = await getCourses({
     page: Number(params.page) || 1,
-    limit: Number(params.limit) || 5,
+    limit: Number(params.limit) || 6,
     category: params.category,
     priceStart: params.priceStart ? Number(params.priceStart) : undefined,
     priceEnd: params.priceEnd ? Number(params.priceEnd) : undefined,

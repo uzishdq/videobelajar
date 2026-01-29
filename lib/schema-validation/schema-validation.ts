@@ -1,5 +1,6 @@
 import z from "zod";
 import {
+  currencySchema,
   emailSchema,
   passwordSchema,
   phoneSchema,
@@ -77,4 +78,17 @@ export const ProfileSchema = z.object({
   name: stringSchema(5, 100),
   email: emailSchema,
   phoneNumber: phoneSchema,
+});
+
+export const CourseSchema = z.object({
+  title: stringSchema(5, 100),
+  desc: stringSchema(5, 255),
+  instructor: stringSchema(3, 50),
+  job: stringSchema(3, 50),
+  price: currencySchema("harga", 50000, 50000000),
+  category: stringSchema(3, 50),
+});
+
+export const EditDeleteCourseSchema = CourseSchema.extend({
+  id: z.uuid("format ID tidak valid.").min(5),
 });

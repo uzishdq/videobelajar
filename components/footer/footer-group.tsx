@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import React from "react";
 
 export default function FooterGroup({
@@ -23,7 +23,7 @@ export default function FooterGroup({
         {title}
         <span className="md:hidden">
           {isOpen ? (
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronDown className="h-4 w-4" />
           ) : (
             <ChevronRight className="h-4 w-4" />
           )}

@@ -161,7 +161,7 @@ export default function CoursesContent({
     setSelectedDuration("");
     setSortBy("");
     setSearchQuery("");
-    router.push("?page=1&limit=10");
+    router.push("?page=1&limit=6");
   };
 
   const createPageURL = (pageNumber: number) => {

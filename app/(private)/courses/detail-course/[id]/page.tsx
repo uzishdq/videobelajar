@@ -33,7 +33,7 @@ export default async function DetailCoursePage({
   const { id } = await params;
 
   return (
-    <section className="flex min-h-screen flex-col items-center px-7 md:px-32 space-y-6 md:space-y-9">
+    <section className="flex min-h-screen flex-col items-center md:px-32 space-y-6 md:space-y-9">
       {/* HEADER */}
       <div className="relative flex items-center justify-center bg-black w-full min-w-[320px] h-100 max-h-100 rounded-[10px]">
         <Image
@@ -67,7 +67,7 @@ export default async function DetailCoursePage({
       <div className="flex flex-col xl:flex-row gap-9">
         <Card className="w-full h-fit order-1 md:order-2">
           <CardHeader>
-            <CardTitle className="text-[18px]">
+            <CardTitle className="text-[18px] text-justify">
               Gapai Karier Impianmu sebagai Seorang UI/UX Designer & Product
               Manager.
             </CardTitle>

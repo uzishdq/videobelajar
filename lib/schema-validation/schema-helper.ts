@@ -1,4 +1,5 @@
 import z from "zod";
+import { formatToIDR } from "../helper";
 
 const allowedRegex = /^[a-zA-Z0-9.,/ \-']+$/;
 
@@ -17,7 +18,7 @@ export const stringSchema = (min = 5, max = 50) =>
     .max(max, `Tidak boleh melebihi ${max} karakter.`)
     .regex(
       allowedRegex,
-      "Gunakan hanya huruf, angka, spasi, titik, koma, atau garis miring."
+      "Gunakan hanya huruf, angka, spasi, titik, koma, atau garis miring.",
     );
 
 export const phoneSchema = z
@@ -34,3 +35,12 @@ export const phoneSchema = z
   .refine((value) => value.startsWith("8"), {
     message: "Nomor telepon harus dimulai dengan 8.",
   });
+
+export const currencySchema = (label: string, min = 5000, max = 50000000) =>
+  z
+    .number({
+      error: `${label} wajib diisi`,
+    })
+    .int(`${label} harus bilangan bulat`)
+    .min(min, `${label} minimal ${formatToIDR(min)}`)
+    .max(max, `${label} maxsimal ${formatToIDR(max)}`);

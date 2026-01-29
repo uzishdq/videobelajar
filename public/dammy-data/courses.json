@@ -118,5 +118,17 @@
     "reviews": 500,
     "price": 259000,
     "category": "desain"
+  },
+  {
+    "id": "ce5e75b2-6582-4e6b-91f2-19a8bbc1488d",
+    "img": "https://picsum.photos/seed/finance-9/600/400",
+    "rating": 0,
+    "reviews": 0,
+    "title": "testing edit",
+    "desc": "testing",
+    "instructor": "Siti Rahmawati",
+    "job": "Pemasaran",
+    "price": 1000000,
+    "category": "pemasaran"
   }
 ]

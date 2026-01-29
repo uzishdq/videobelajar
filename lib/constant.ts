@@ -16,6 +16,9 @@ export const ROUTES = {
       KELAS: "/kelas",
       PESANAN: "/pesanan",
     },
+    ADMIN: {
+      INDEX: "/admin",
+    },
   },
 };
 
@@ -125,3 +128,42 @@ export const LABEL = {
     UNAUTHORIZED: "You’re not authorized to perform this action.",
   },
 };
+
+export const D_INSTRUCTOR = [
+  {
+    name: "Siti Rahmawati",
+    value: "Siti Rahmawati",
+  },
+  {
+    name: "Budi Santoso",
+    value: "Budi Santoso",
+  },
+  {
+    name: "Andi Pratama",
+    value: "Andi Pratama",
+  },
+];
+
+export const D_JOB = [
+  { name: "Pemasaran", value: "Pemasaran" },
+  { name: "Desain", value: "Desain" },
+  { name: "Pengembangan Diri", value: "Pengembangan Diri" },
+  { name: "Bisnis", value: "bisnis" },
+  { name: "Teknologi Informasi", value: "Teknologi Informasi" },
+  { name: "Pengembangan Software", value: "Pengembangan Software" },
+  { name: "Data & Analitik", value: "Data Analitik" },
+  { name: "Keuangan & Akuntansi", value: "Keuangan Akuntansi" },
+  { name: "Manajemen Proyek", value: "Manajemen Proyek" },
+  { name: "Sumber Daya Manusia", value: "Sumber Daya Manusia" },
+  { name: "UI / UX Designer", value: "UI / UX Designer" },
+  { name: "Content Creator", value: "Content Creator" },
+  { name: "Digital Marketing", value: "Digital Marketing" },
+  { name: "Product Management", value: "Product Management" },
+];
+
+export const D_CATEGORY = [
+  { name: "Pemasaran", value: "pemasaran" },
+  { name: "Desain", value: "desain" },
+  { name: "Pengembangan Diri", value: "pengembangan" },
+  { name: "Bisnis", value: "bisnis" },
+];

@@ -1,6 +1,10 @@
 import { LABEL } from "@/lib/constant";
 import { APIResponse, Course } from "@/lib/data-dummy";
-import { CourseQuerySchema } from "@/lib/schema-validation/schema-validation";
+import {
+  CourseQuerySchema,
+  CourseSchema,
+  EditDeleteCourseSchema,
+} from "@/lib/schema-validation/schema-validation";
 import { NextResponse } from "next/server";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -168,6 +172,232 @@ export async function GET(req: Request) {
     return NextResponse.json(response, { status: 200 });
   } catch (error) {
     const response: APIResponse<Course[]> = {
+      ok: false,
+      data: null,
+      message: error instanceof Error ? error.message : LABEL.ERROR.SERVER,
+    };
+
+    return NextResponse.json(response, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  const authHeader = req.headers.get("authorization");
+
+  if (authHeader !== `Bearer ${process.env.API_TOKEN}`) {
+    const response: APIResponse<Course> = {
+      ok: false,
+      data: null,
+      message: LABEL.ERROR.UNAUTHORIZED,
+    };
+    return NextResponse.json(response, { status: 401 });
+  }
+
+  try {
+    const body = await req.json();
+
+    // Validasi dengan CourseSchema (tanpa img, rating, reviews)
+    const validatedData = CourseSchema.safeParse(body);
+
+    if (!validatedData.success) {
+      const response: APIResponse<Course> = {
+        ok: false,
+        data: null,
+        message: validatedData.error.message,
+      };
+      return NextResponse.json(response, { status: 400 });
+    }
+
+    // Generate UUID
+    const { randomUUID } = await import("node:crypto");
+
+    // Set default values untuk img, rating, reviews
+    const newCourse: Course = {
+      id: randomUUID(),
+      img: "https://picsum.photos/seed/finance-9/600/400", // Default image
+      rating: 0, // Default rating
+      reviews: 0, // Default reviews count
+      ...validatedData.data,
+    };
+
+    // Baca file
+    const filePath = path.join(
+      process.cwd(),
+      "public",
+      "dammy-data",
+      "courses.json",
+    );
+    const fileContents = await fs.readFile(filePath, "utf8");
+    const courses: Course[] = JSON.parse(fileContents);
+
+    // Tambahkan course baru
+    courses.push(newCourse);
+
+    // Simpan kembali ke file
+    await fs.writeFile(filePath, JSON.stringify(courses, null, 2), "utf8");
+
+    const response: APIResponse<Course> = {
+      ok: true,
+      data: newCourse,
+      message: LABEL.INPUT.SUCCESS.SAVED || "Course berhasil dibuat",
+    };
+
+    return NextResponse.json(response, { status: 201 });
+  } catch (error) {
+    const response: APIResponse<Course> = {
+      ok: false,
+      data: null,
+      message: error instanceof Error ? error.message : LABEL.ERROR.SERVER,
+    };
+
+    return NextResponse.json(response, { status: 500 });
+  }
+}
+
+// PUT - Update course
+export async function PUT(req: Request) {
+  const authHeader = req.headers.get("authorization");
+
+  if (authHeader !== `Bearer ${process.env.API_TOKEN}`) {
+    const response: APIResponse<Course> = {
+      ok: false,
+      data: null,
+      message: LABEL.ERROR.UNAUTHORIZED,
+    };
+    return NextResponse.json(response, { status: 401 });
+  }
+
+  try {
+    const body = await req.json();
+
+    const validatedData = EditDeleteCourseSchema.safeParse(body);
+
+    if (!validatedData.success) {
+      const response: APIResponse<Course> = {
+        ok: false,
+        data: null,
+        message: validatedData.error.message,
+      };
+      return NextResponse.json(response, { status: 400 });
+    }
+
+    const { id, ...updateData } = validatedData.data;
+
+    // Baca file
+    const filePath = path.join(
+      process.cwd(),
+      "public",
+      "dammy-data",
+      "courses.json",
+    );
+    const fileContents = await fs.readFile(filePath, "utf8");
+    const courses: Course[] = JSON.parse(fileContents);
+
+    // Cari course
+    const courseIndex = courses.findIndex((course) => course.id === id);
+
+    if (courseIndex === -1) {
+      const response: APIResponse<Course> = {
+        ok: false,
+        data: null,
+        message: "Course tidak ditemukan",
+      };
+      return NextResponse.json(response, { status: 404 });
+    }
+
+    // Update course (hanya field yang dikirim, img/rating/reviews tidak berubah)
+    courses[courseIndex] = {
+      ...courses[courseIndex],
+      ...updateData,
+      // img, rating, reviews tetap dari data lama
+      img: courses[courseIndex].img,
+      rating: courses[courseIndex].rating,
+      reviews: courses[courseIndex].reviews,
+    };
+
+    // Simpan kembali
+    await fs.writeFile(filePath, JSON.stringify(courses, null, 2), "utf8");
+
+    const response: APIResponse<Course> = {
+      ok: true,
+      data: courses[courseIndex],
+      message: LABEL.INPUT.SUCCESS.UPDATE || "Course berhasil diupdate",
+    };
+
+    return NextResponse.json(response, { status: 200 });
+  } catch (error) {
+    const response: APIResponse<Course> = {
+      ok: false,
+      data: null,
+      message: error instanceof Error ? error.message : LABEL.ERROR.SERVER,
+    };
+
+    return NextResponse.json(response, { status: 500 });
+  }
+}
+
+// DELETE - tetap sama seperti sebelumnya
+export async function DELETE(req: Request) {
+  const authHeader = req.headers.get("authorization");
+
+  if (authHeader !== `Bearer ${process.env.API_TOKEN}`) {
+    const response: APIResponse<null> = {
+      ok: false,
+      data: null,
+      message: LABEL.ERROR.UNAUTHORIZED,
+    };
+    return NextResponse.json(response, { status: 401 });
+  }
+
+  try {
+    const body = await req.json();
+    // Validasi UUID format
+    const validated = EditDeleteCourseSchema.safeParse(body);
+
+    if (!validated.success) {
+      const response: APIResponse<null> = {
+        ok: false,
+        data: null,
+        message: validated.error.message,
+      };
+      return NextResponse.json(response, { status: 400 });
+    }
+
+    const filePath = path.join(
+      process.cwd(),
+      "public",
+      "dammy-data",
+      "courses.json",
+    );
+    const fileContents = await fs.readFile(filePath, "utf8");
+    const courses: Course[] = JSON.parse(fileContents);
+
+    const courseIndex = courses.findIndex(
+      (course) => course.id === validated.data.id,
+    );
+
+    if (courseIndex === -1) {
+      const response: APIResponse<null> = {
+        ok: false,
+        data: null,
+        message: "Course tidak ditemukan",
+      };
+      return NextResponse.json(response, { status: 404 });
+    }
+
+    const deletedCourse = courses.splice(courseIndex, 1)[0];
+
+    await fs.writeFile(filePath, JSON.stringify(courses, null, 2), "utf8");
+
+    const response: APIResponse<Course> = {
+      ok: true,
+      data: deletedCourse,
+      message: LABEL.INPUT.SUCCESS.DELETE || "Course berhasil dihapus",
+    };
+
+    return NextResponse.json(response, { status: 200 });
+  } catch (error) {
+    const response: APIResponse<null> = {
       ok: false,
       data: null,
       message: error instanceof Error ? error.message : LABEL.ERROR.SERVER,

@@ -39,6 +39,15 @@ export function formatToIDR(value: number): string {
   return result;
 }
 
+export function handleRupiahNumberChange(
+  field: { onChange: (value: number | null) => void },
+  e: React.ChangeEvent<HTMLInputElement>,
+) {
+  const raw = e.target.value.replaceAll(/\D/g, "");
+
+  field.onChange(raw === "" ? null : Number(raw));
+}
+
 export const isPathActive = (pathname: string, target: string) => {
   if (target === "/") return pathname === "/";
 
