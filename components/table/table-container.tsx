@@ -249,9 +249,9 @@ export default function TableContainer<T>({
               </span>
             </div>
 
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+            <div className="flex flex-row gap-2 sm:items-center sm:gap-4">
               {/* Page Size Selector */}
-              <div className="flex items-center gap-2">
+              <div className="flex w-full items-center gap-2">
                 <span className="text-sm text-muted-foreground">
                   Baris per halaman:
                 </span>

@@ -78,7 +78,7 @@ export default async function DetailCoursePage({
                   Rp 250k
                 </span>
               </h3>
-              <Badge className="bg-accent rounded-md">Diskon 50%</Badge>
+              <Badge variant="outline">Diskon 50%</Badge>
             </div>
             <p className="text-sm text-blue-600 font-medium">
               Penawaran spesial tersisa 2 hari lagi!
