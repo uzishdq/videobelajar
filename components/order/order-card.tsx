@@ -62,10 +62,12 @@ export default function OrderCard({ data }: Readonly<{ data: MyOrder }>) {
 
           <h3 className="font-medium text-lg leading-snug">{data.title}</h3>
         </div>
-        <div className="hidden md:block h-12 w-px bg-border" />
-        <div className="flex flex-col items-start gap-1">
-          <p className="text-sm text-muted-foreground">Harga</p>
-          <p className="font-semibold text-lg">{formatToIDR(data.harga)}</p>
+        <div className="flex flex-row items-center justify-between gap-11">
+          <div className="hidden md:block h-12 w-px bg-border" />
+          <div className="flex flex-col items-start gap-1">
+            <p className="text-sm text-muted-foreground">Harga</p>
+            <p className="font-semibold text-lg">{formatToIDR(data.harga)}</p>
+          </div>
         </div>
       </div>
 
