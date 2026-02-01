@@ -60,14 +60,23 @@ export async function GET(req: Request) {
       search,
     } = validatedParams.data;
 
-    const filePath = path.join(
-      process.cwd(),
-      "public",
-      "dammy-data",
-      "courses.json",
-    );
-    const fileContents = await fs.readFile(filePath, "utf8");
-    let courses: Course[] = JSON.parse(fileContents);
+    const res = await fetch(`${process.env.API_MOCK_URL}/course`, {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${process.env.API_TOKEN}`,
+      },
+    });
+
+    if (!res.ok) {
+      const response: APIResponse<Course[]> = {
+        ok: false,
+        data: null,
+        message: "Gagal mengambil data course dari MockAPI",
+      };
+      return NextResponse.json(response, { status: 500 });
+    }
+
+    let courses: Course[] = await res.json();
 
     // Filter berdasarkan search
     if (search) {

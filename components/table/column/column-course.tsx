@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Course } from "@/lib/data-dummy";
-import { formatToIDR } from "@/lib/helper";
+import { formatToIDR, truncateText } from "@/lib/helper";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
@@ -34,7 +34,9 @@ export const columnCourse: ColumnDef<Course>[] = [
   {
     accessorKey: "desc",
     header: "Description",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("desc")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">{truncateText(row.getValue("desc"), 50)}</div>
+    ),
   },
   {
     accessorKey: "price",

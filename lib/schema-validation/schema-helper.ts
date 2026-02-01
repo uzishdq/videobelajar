@@ -1,7 +1,7 @@
 import z from "zod";
 import { formatToIDR } from "../helper";
 
-const allowedRegex = /^[a-zA-Z0-9.,/ \-']+$/;
+const allowedRegex = /^[a-zA-Z0-9.,/ \-'\n\r]+$/;
 
 export const emailSchema = z
   .email({ error: "Alamat email tidak valid" })

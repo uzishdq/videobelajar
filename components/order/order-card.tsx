@@ -49,7 +49,7 @@ export default function OrderCard({ data }: Readonly<{ data: MyOrder }>) {
 
       {/* Content */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-3 gap-4">
-        <div className="flex items-start gap-3">
+        <div className="flex items-center justify-start gap-3">
           <div className="relative size-14 shrink-0 rounded-lg overflow-hidden">
             <Image
               src={data.img}
@@ -60,7 +60,9 @@ export default function OrderCard({ data }: Readonly<{ data: MyOrder }>) {
             />
           </div>
 
-          <h3 className="font-medium text-lg leading-snug">{data.title}</h3>
+          <h3 className="font-medium text-lg text-justify leading-snug">
+            {data.title}
+          </h3>
         </div>
         <div className="flex flex-row items-center justify-between gap-11">
           <div className="hidden md:block h-12 w-px bg-border" />

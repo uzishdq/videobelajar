@@ -14,7 +14,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
-import { BookText, ChevronUp, Clock, ShoppingBag } from "lucide-react";
+import { BookText, ChevronUp, Clock, Search, ShoppingBag } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
@@ -41,6 +41,7 @@ import {
 import { Course } from "@/lib/data-dummy";
 import { LABEL } from "@/lib/constant";
 import { useRouter, useSearchParams } from "next/navigation";
+import CourseSkeleton from "./course-skeleton";
 
 type GroupKey = "bidangStudi" | "harga" | "durasi";
 
@@ -61,11 +62,19 @@ export default function CoursesContent({
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [isLoading, setIsLoading] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState<Record<GroupKey, boolean>>({
     bidangStudi: true,
     harga: true,
     durasi: true,
   });
+
+  const handleOpenChange = (key: GroupKey) => (open: boolean) => {
+    setIsOpen((prev) => ({
+      ...prev,
+      [key]: open,
+    }));
+  };
 
   const [selectedCategories, setSelectedCategories] = React.useState<string[]>(
     searchParams.get("category")?.split(",") || [],
@@ -80,35 +89,33 @@ export default function CoursesContent({
     searchParams.get("duration") || "",
   );
   const [sortBy, setSortBy] = React.useState(searchParams.get("sortBy") || "");
+
   const [searchQuery, setSearchQuery] = React.useState(
     searchParams.get("search") || "",
   );
 
-  const handleOpenChange = (key: GroupKey) => (open: boolean) => {
-    setIsOpen((prev) => ({
-      ...prev,
-      [key]: open,
-    }));
-  };
+  const updateURL = React.useCallback(
+    (updates: Record<string, string | null>) => {
+      setIsLoading(true); // Set loading true sebelum update
 
-  const updateURL = (updates: Record<string, string | null>) => {
-    const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams);
 
-    Object.entries(updates).forEach(([key, value]) => {
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value) {
+          params.set(key, value);
+        } else {
+          params.delete(key);
+        }
+      });
+
+      if (!updates.page) {
+        params.set("page", "1");
       }
-    });
 
-    // Reset ke halaman 1 saat filter berubah
-    if (!updates.page) {
-      params.set("page", "1");
-    }
-
-    router.push(`?${params.toString()}`);
-  };
+      router.push(`?${params.toString()}`, { scroll: false });
+    },
+    [searchParams, router],
+  );
 
   const handleCategoryChange = (category: string, checked: boolean) => {
     let newCategories: string[];
@@ -142,19 +149,14 @@ export default function CoursesContent({
     updateURL({ sortBy: value });
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchQuery(value);
-
-    // Debounce search
-    const timeoutId = setTimeout(() => {
-      updateURL({ search: value || null });
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
+  const handleSearch = () => {
+    updateURL({
+      search: searchQuery.trim() || null,
+    });
   };
 
   const handleReset = () => {
+    setIsLoading(true);
     setSelectedCategories([]);
     setPriceStart("");
     setPriceEnd("");
@@ -169,6 +171,10 @@ export default function CoursesContent({
     params.set("page", pageNumber.toString());
     return `?${params.toString()}`;
   };
+
+  React.useEffect(() => {
+    setIsLoading(false);
+  }, [data]);
 
   if (!data) {
     return (
@@ -264,6 +270,7 @@ export default function CoursesContent({
                   value={priceStart}
                   onChange={(e) => setPriceStart(e.target.value)}
                 />
+
                 <Input
                   type="number"
                   placeholder="Harga Maximum"
@@ -342,13 +349,24 @@ export default function CoursesContent({
             </SelectContent>
           </Select>
 
-          <Input
-            type="text"
-            placeholder="Cari Kelas"
-            className="bg-white"
-            value={searchQuery}
-            onChange={handleSearchChange}
-          />
+          <div className="flex w-full items-center gap-2">
+            <Input
+              type="text"
+              placeholder="Cari Kelas"
+              className="bg-white"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+            />
+
+            <Button onClick={handleSearch} className="shrink-0">
+              <Search className="size-4" />
+            </Button>
+          </div>
         </div>
         {data.length === 0 ? (
           <div className="text-center p-10 text-gray-400 text-base font-medium border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
@@ -357,9 +375,13 @@ export default function CoursesContent({
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 w-full gap-5">
-              {data.map((item) => (
-                <CourseCard key={item.id} data={item} />
-              ))}
+              {isLoading
+                ? Array.from({ length: data.length }).map((_, i) => (
+                    <CourseSkeleton
+                      key={`sekeleton-${i}-${crypto.randomUUID()}`}
+                    />
+                  ))
+                : data.map((item) => <CourseCard key={item.id} data={item} />)}
             </div>
 
             {/* Pagination */}

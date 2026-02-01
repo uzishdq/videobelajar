@@ -12,13 +12,22 @@ export async function createCourse(
   values: z.infer<typeof CourseSchema>,
 ): Promise<APIResponse<Course>> {
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/api/courses`, {
+    const validate = CourseSchema.safeParse(values);
+
+    if (!validate.success) {
+      return {
+        ok: false,
+        data: null,
+        message: "Data tidak valid",
+      };
+    }
+
+    const res = await fetch(`${process.env.API_MOCK_URL}/course`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify(validate.data),
     });
 
     if (!res.ok) {
@@ -29,10 +38,15 @@ export async function createCourse(
       };
     }
 
-    const response: APIResponse<Course> = await res.json();
+    const createdCourse: Course = await res.json();
 
-    return response;
+    return {
+      ok: true,
+      data: createdCourse,
+      message: "Course berhasil dibuat",
+    };
   } catch (error) {
+    console.error(error);
     return {
       ok: false,
       data: null,
@@ -45,23 +59,50 @@ export async function updateCourse(
   values: z.infer<typeof EditDeleteCourseSchema>,
 ): Promise<APIResponse<Course>> {
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/api/courses`, {
+    const validate = EditDeleteCourseSchema.safeParse(values);
+
+    if (!validate.success) {
+      return {
+        ok: false,
+        data: null,
+        message: "Data tidak valid",
+      };
+    }
+
+    const { id, ...payload } = validate.data;
+
+    const res = await fetch(`${process.env.API_MOCK_URL}/course/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify(payload),
     });
 
-    const response: APIResponse<Course> = await res.json();
+    if (!res.ok) {
+      return {
+        ok: false,
+        data: null,
+        message: "Gagal memperbarui course",
+      };
+    }
 
-    return response;
+    const updatedCourse: Course = await res.json();
+
+    return {
+      ok: true,
+      data: updatedCourse,
+      message: "Course berhasil diperbarui",
+    };
   } catch (error) {
+    console.error(error);
     return {
       ok: false,
       data: null,
-      message: error instanceof Error ? error.message : "Terjadi kesalahan",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Terjadi kesalahan pada server",
     };
   }
 }
@@ -69,19 +110,37 @@ export async function updateCourse(
 // Delete Course
 export async function deleteCourse(
   values: z.infer<typeof EditDeleteCourseSchema>,
-): Promise<APIResponse<Course>> {
+): Promise<APIResponse<null>> {
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/api/courses`, {
+    const validate = EditDeleteCourseSchema.safeParse(values);
+
+    if (!validate.success) {
+      return {
+        ok: false,
+        data: null,
+        message: "Data tidak valid",
+      };
+    }
+
+    const { id } = validate.data;
+
+    const res = await fetch(`${process.env.API_MOCK_URL}/course/${id}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${process.env.API_TOKEN}`,
-      },
-      body: JSON.stringify(values),
     });
 
-    const response: APIResponse<Course> = await res.json();
+    if (!res.ok) {
+      return {
+        ok: false,
+        data: null,
+        message: "Gagal menghapus course",
+      };
+    }
 
-    return response;
+    return {
+      ok: true,
+      data: null,
+      message: "Course berhasil dihapus",
+    };
   } catch (error) {
     return {
       ok: false,

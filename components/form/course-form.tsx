@@ -219,7 +219,7 @@ function EditDeleteCourseForm({
       desc: data.desc ?? "",
       instructor: data.instructor ?? "",
       job: data.job ?? "",
-      price: data.price ?? 0,
+      price: Number(data.price ?? 0),
       category: data.category ?? "",
     },
     mode: "onChange",
@@ -302,22 +302,11 @@ function EditDeleteCourseForm({
               control={form.control}
               name="instructor"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel>Instructor</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Pilih instructor" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {D_INSTRUCTOR.map((item) => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -326,22 +315,11 @@ function EditDeleteCourseForm({
               control={form.control}
               name="job"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel>Job</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Pilih job" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {D_JOB.map((item) => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

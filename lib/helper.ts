@@ -63,3 +63,8 @@ export function formatTanggalID(date: Date) {
     minute: "2-digit",
   }).format(date);
 }
+
+export function truncateText(text: string, maxLength = 120): string {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + "...";
+}

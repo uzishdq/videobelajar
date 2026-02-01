@@ -38,3 +38,36 @@ export async function getCourses(params?: {
 
   return res.json();
 }
+
+export async function getCourse(): Promise<APIResponse<Course[]>> {
+  try {
+    const url = `${process.env.API_MOCK_URL}/course`;
+
+    const res = await fetch(url, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      return {
+        ok: false,
+        data: null,
+        message: "Failed to fetch course data",
+      };
+    }
+
+    const data: Course[] = await res.json();
+
+    return {
+      ok: true,
+      data,
+      message: "Success fetch courses",
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      ok: false,
+      data: null,
+      message: "Internal server error",
+    };
+  }
+}

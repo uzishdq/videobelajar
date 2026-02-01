@@ -82,7 +82,7 @@ export const ProfileSchema = z.object({
 
 export const CourseSchema = z.object({
   title: stringSchema(5, 100),
-  desc: stringSchema(5, 255),
+  desc: stringSchema(5, 500),
   instructor: stringSchema(3, 50),
   job: stringSchema(3, 50),
   price: currencySchema("harga", 50000, 50000000),
@@ -90,5 +90,5 @@ export const CourseSchema = z.object({
 });
 
 export const EditDeleteCourseSchema = CourseSchema.extend({
-  id: z.uuid("format ID tidak valid.").min(5),
+  id: z.string().min(1),
 });

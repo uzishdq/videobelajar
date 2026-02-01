@@ -1,4 +1,5 @@
 "use client";
+"use no memo";
 
 import React from "react";
 import {
@@ -9,6 +10,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -36,25 +38,8 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { useRouter, useSearchParams } from "next/navigation";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "../ui/pagination";
 
-interface TableContainerProps<T> {
+interface TableDateWrapperProps<T> {
   header: string;
   description: string;
   searchBy: string;
@@ -62,15 +47,9 @@ interface TableContainerProps<T> {
   children?: React.ReactNode;
   data: T[];
   columns: ColumnDef<T>[];
-  meta?: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
 }
 
-export default function TableContainer<T>({
+export default function TableWrapper2<T>({
   header,
   description,
   searchBy,
@@ -78,15 +57,7 @@ export default function TableContainer<T>({
   children,
   data,
   columns,
-  meta,
-}: Readonly<TableContainerProps<T>>) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const currentPage = meta?.page || 1;
-  const totalPages = meta?.totalPages || 1;
-  const pageSize = meta?.limit || 10;
-
+}: Readonly<TableDateWrapperProps<T>>) {
   const memoData = React.useMemo(() => data, [data]);
   const memoColumns = React.useMemo(() => columns, [columns]);
 
@@ -97,6 +68,10 @@ export default function TableContainer<T>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -105,36 +80,20 @@ export default function TableContainer<T>({
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    manualPagination: true, // Server handles pagination
-    pageCount: totalPages,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
-      pagination: {
-        pageIndex: currentPage - 1,
-        pageSize: pageSize,
-      },
+      pagination,
     },
   });
-
-  const createPageURL = (pageNumber: number) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    return `?${params.toString()}`;
-  };
-
-  const handlePageSizeChange = (newPageSize: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("limit", newPageSize);
-    params.set("page", "1"); // Reset to page 1 when changing page size
-    router.push(`?${params.toString()}`);
-  };
 
   return (
     <Card className="xl:col-span-2">
@@ -232,117 +191,35 @@ export default function TableContainer<T>({
                       colSpan={columns.length}
                       className="h-24 text-center"
                     >
-                      Tidak ada Data
+                      No Results
                     </TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
           </div>
-          {/* Pagination dengan URL params */}
-          <div className="flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span>
-                Menampilkan {(currentPage - 1) * pageSize + 1} -{" "}
-                {Math.min(currentPage * pageSize, meta?.total || 0)} dari{" "}
-                {meta?.total || 0} data
-              </span>
+          <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex-1 text-sm text-muted-foreground">
+              Page {pagination.pageIndex + 1} of{" "}
+              {table.getPageCount().toLocaleString()}
             </div>
-
-            <div className="flex flex-row gap-2 sm:items-center sm:gap-4">
-              {/* Page Size Selector */}
-              <div className="flex w-full items-center gap-2">
-                <span className="text-sm text-muted-foreground">
-                  Baris per halaman:
-                </span>
-                <Select
-                  value={pageSize.toString()}
-                  onValueChange={handlePageSizeChange}
-                >
-                  <SelectTrigger className="h-8 w-17.5">
-                    <SelectValue placeholder={pageSize} />
-                  </SelectTrigger>
-                  <SelectContent side="top">
-                    {[5, 10, 20, 30, 50].map((size) => (
-                      <SelectItem key={size} value={`${size}`}>
-                        {size}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Pagination Navigation */}
-              {totalPages > 1 && (
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious
-                        href={
-                          currentPage > 1 ? createPageURL(currentPage - 1) : "#"
-                        }
-                        aria-disabled={currentPage === 1}
-                        className={
-                          currentPage === 1
-                            ? "pointer-events-none opacity-50"
-                            : ""
-                        }
-                      />
-                    </PaginationItem>
-
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                      (pageNum) => {
-                        const showPage =
-                          pageNum === 1 ||
-                          pageNum === totalPages ||
-                          (pageNum >= currentPage - 1 &&
-                            pageNum <= currentPage + 1);
-
-                        if (!showPage) {
-                          if (
-                            pageNum === currentPage - 2 ||
-                            pageNum === currentPage + 2
-                          ) {
-                            return (
-                              <PaginationItem key={pageNum}>
-                                <PaginationEllipsis />
-                              </PaginationItem>
-                            );
-                          }
-                          return null;
-                        }
-
-                        return (
-                          <PaginationItem key={pageNum}>
-                            <PaginationLink
-                              href={createPageURL(pageNum)}
-                              isActive={currentPage === pageNum}
-                            >
-                              {pageNum}
-                            </PaginationLink>
-                          </PaginationItem>
-                        );
-                      },
-                    )}
-
-                    <PaginationItem>
-                      <PaginationNext
-                        href={
-                          currentPage < totalPages
-                            ? createPageURL(currentPage + 1)
-                            : "#"
-                        }
-                        aria-disabled={currentPage === totalPages}
-                        className={
-                          currentPage === totalPages
-                            ? "pointer-events-none opacity-50"
-                            : ""
-                        }
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              )}
+            <div className="space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                Next
+              </Button>
             </div>
           </div>
         </div>

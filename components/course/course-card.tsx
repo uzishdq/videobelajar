@@ -11,7 +11,7 @@ import Image from "next/image";
 import { IMG_PUBLIC, ROUTES } from "@/lib/constant";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Course } from "@/lib/data-dummy";
-import { formatToIDR } from "@/lib/helper";
+import { formatToIDR, truncateText } from "@/lib/helper";
 import { RatingStars } from "./rating-course";
 import Link from "next/link";
 
@@ -33,8 +33,8 @@ export default function CourseCard({ data }: Readonly<{ data: Course }>) {
           <div className="flex flex-col flex-1 md:gap-3">
             <CardHeader className="px-0">
               <CardTitle className="text-[18px]">{data.title}</CardTitle>
-              <CardDescription className="text-base hidden md:block">
-                {data.desc}
+              <CardDescription className="text-base text-justify hidden md:block">
+                {truncateText(data.desc, 100)}
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-row items-center px-0 space-x-2">
