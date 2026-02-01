@@ -28,7 +28,7 @@ export default async function AdminPage() {
     <section className="flex flex-col justify-center w-full max-w-300">
       <TableWrapper2
         header="Data Course"
-        description="Catatan transaksi penjualan"
+        description="Catatan course videobelajar"
         searchBy="title"
         labelSearch="Title"
         data={response.data}

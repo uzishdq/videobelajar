@@ -41,6 +41,5 @@ export const currencySchema = (label: string, min = 5000, max = 50000000) =>
     .number({
       error: `${label} wajib diisi`,
     })
-    .int(`${label} harus bilangan bulat`)
     .min(min, `${label} minimal ${formatToIDR(min)}`)
     .max(max, `${label} maxsimal ${formatToIDR(max)}`);
