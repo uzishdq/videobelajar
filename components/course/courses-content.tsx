@@ -38,31 +38,29 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
-import { Course } from "@/lib/data-dummy";
-import { LABEL } from "@/lib/constant";
-import { useRouter, useSearchParams } from "next/navigation";
 import CourseSkeleton from "./course-skeleton";
+import { useCourseStore } from "@/stores/course.store";
 
 type GroupKey = "bidangStudi" | "harga" | "durasi";
 
-interface ICoursesContent {
-  data: Course[] | null;
-  meta?: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
-}
+export default function CoursesContent() {
+  const {
+    data,
+    isLoading,
+    error,
+    fetchCourses,
+    totalPages,
+    page,
+    setPage,
+    filters,
+    setFilters,
+    resetFilters,
+  } = useCourseStore();
 
-export default function CoursesContent({
-  data,
-  meta,
-}: Readonly<ICoursesContent>) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  React.useEffect(() => {
+    fetchCourses();
+  }, [fetchCourses, page]);
 
-  const [isLoading, setIsLoading] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState<Record<GroupKey, boolean>>({
     bidangStudi: true,
     harga: true,
@@ -76,116 +74,42 @@ export default function CoursesContent({
     }));
   };
 
+  const [priceStart, setPriceStart] = React.useState("");
+  const [priceEnd, setPriceEnd] = React.useState("");
+  const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedCategories, setSelectedCategories] = React.useState<string[]>(
-    searchParams.get("category")?.split(",") || [],
-  );
-  const [priceStart, setPriceStart] = React.useState(
-    searchParams.get("priceStart") || "",
-  );
-  const [priceEnd, setPriceEnd] = React.useState(
-    searchParams.get("priceEnd") || "",
-  );
-  const [selectedDuration, setSelectedDuration] = React.useState(
-    searchParams.get("duration") || "",
-  );
-  const [sortBy, setSortBy] = React.useState(searchParams.get("sortBy") || "");
-
-  const [searchQuery, setSearchQuery] = React.useState(
-    searchParams.get("search") || "",
-  );
-
-  const updateURL = React.useCallback(
-    (updates: Record<string, string | null>) => {
-      setIsLoading(true); // Set loading true sebelum update
-
-      const params = new URLSearchParams(searchParams);
-
-      Object.entries(updates).forEach(([key, value]) => {
-        if (value) {
-          params.set(key, value);
-        } else {
-          params.delete(key);
-        }
-      });
-
-      if (!updates.page) {
-        params.set("page", "1");
-      }
-
-      router.push(`?${params.toString()}`, { scroll: false });
-    },
-    [searchParams, router],
+    [],
   );
 
   const handleCategoryChange = (category: string, checked: boolean) => {
-    let newCategories: string[];
-
-    if (checked) {
-      newCategories = [...selectedCategories, category];
-    } else {
-      newCategories = selectedCategories.filter((c) => c !== category);
-    }
+    const newCategories = checked
+      ? [...selectedCategories, category]
+      : selectedCategories.filter((c) => c !== category);
 
     setSelectedCategories(newCategories);
-    updateURL({
-      category: newCategories.length > 0 ? newCategories.join(",") : null,
-    });
+    setFilters({ category: newCategories.join(",") });
   };
 
   const handlePriceFilter = () => {
-    updateURL({
-      priceStart: priceStart || null,
-      priceEnd: priceEnd || null,
+    setFilters({
+      priceStart: priceStart ? Number(priceStart) : undefined,
+      priceEnd: priceEnd ? Number(priceEnd) : undefined,
     });
   };
 
-  const handleDurationChange = (duration: string) => {
-    setSelectedDuration(duration);
-    updateURL({ duration: duration || null });
-  };
-
-  const handleSortChange = (value: string) => {
-    setSortBy(value);
-    updateURL({ sortBy: value });
-  };
-
-  const handleSearch = () => {
-    updateURL({
-      search: searchQuery.trim() || null,
-    });
-  };
-
-  const handleReset = () => {
-    setIsLoading(true);
-    setSelectedCategories([]);
-    setPriceStart("");
-    setPriceEnd("");
-    setSelectedDuration("");
-    setSortBy("");
-    setSearchQuery("");
-    router.push("?page=1&limit=6");
-  };
-
-  const createPageURL = (pageNumber: number) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    return `?${params.toString()}`;
-  };
-
-  React.useEffect(() => {
-    setIsLoading(false);
-  }, [data]);
-
-  if (!data) {
+  if (error) {
     return (
-      <div className="text-center p-10 text-gray-400 text-base font-medium border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
-        {LABEL.ERROR.DATA_NOT_FOUND}
+      <div
+        className="text-center p-10 text-red-600 text-base font-medium border-2 border-dashed border-red-200 rounded-lg bg-red-50"
+        role="alert"
+      >
+        <p className="font-semibold mb-2">{error}</p>
+        <Button onClick={fetchCourses} variant="destructive" className="mt-4">
+          Coba Lagi
+        </Button>
       </div>
     );
   }
-
-  const currentPage = meta?.page || 1;
-  const totalPages = meta?.totalPages || 1;
 
   return (
     <section className="flex flex-col items-start justify-between md:flex-row gap-10">
@@ -195,7 +119,7 @@ export default function CoursesContent({
             Filter
           </CardTitle>
           <CardAction>
-            <Button variant="ghost" onClick={handleReset}>
+            <Button variant="ghost" onClick={resetFilters}>
               Reset
             </Button>
           </CardAction>
@@ -302,8 +226,8 @@ export default function CoursesContent({
             </div>
             <CollapsibleContent className="flex flex-col">
               <RadioGroup
-                value={selectedDuration}
-                onValueChange={handleDurationChange}
+                value={filters.duration}
+                onValueChange={(value) => setFilters({ duration: value })}
                 className="mb-2 text-muted-foreground"
               >
                 <div className="flex items-center gap-2">
@@ -332,7 +256,10 @@ export default function CoursesContent({
 
       <div className="w-full space-y-8">
         <div className="flex flex-row gap-4">
-          <Select value={sortBy} onValueChange={handleSortChange}>
+          <Select
+            value={filters.sortBy}
+            onValueChange={(value) => setFilters({ sortBy: value })}
+          >
             <SelectTrigger className="w-45 bg-white">
               <SelectValue placeholder="Urutkan" />
             </SelectTrigger>
@@ -358,12 +285,15 @@ export default function CoursesContent({
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  handleSearch();
+                  setFilters({ search: searchQuery });
                 }
               }}
             />
 
-            <Button onClick={handleSearch} className="shrink-0">
+            <Button
+              onClick={() => setFilters({ search: searchQuery })}
+              className="shrink-0"
+            >
               <Search className="size-4" />
             </Button>
           </div>
@@ -385,19 +315,17 @@ export default function CoursesContent({
             </div>
 
             {/* Pagination */}
-            {totalPages >= 1 && (
+            {totalPages > 1 && (
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious
-                      href={
-                        currentPage > 1 ? createPageURL(currentPage - 1) : "#"
-                      }
-                      aria-disabled={currentPage === 1}
+                      onClick={() => page > 1 && setPage(page - 1)}
+                      aria-disabled={page === 1}
                       className={
-                        currentPage === 1
-                          ? "pointer-events-none opacity-50"
-                          : ""
+                        page === 1
+                          ? "pointer-events-none opacity-50 cursor-not-allowed"
+                          : "cursor-pointer"
                       }
                     />
                   </PaginationItem>
@@ -407,14 +335,10 @@ export default function CoursesContent({
                       const showPage =
                         pageNum === 1 ||
                         pageNum === totalPages ||
-                        (pageNum >= currentPage - 1 &&
-                          pageNum <= currentPage + 1);
+                        (pageNum >= page - 1 && pageNum <= page + 1);
 
                       if (!showPage) {
-                        if (
-                          pageNum === currentPage - 2 ||
-                          pageNum === currentPage + 2
-                        ) {
+                        if (pageNum === page - 2 || pageNum === page + 2) {
                           return (
                             <PaginationItem key={pageNum}>
                               <PaginationEllipsis />
@@ -427,8 +351,9 @@ export default function CoursesContent({
                       return (
                         <PaginationItem key={pageNum}>
                           <PaginationLink
-                            href={createPageURL(pageNum)}
-                            isActive={currentPage === pageNum}
+                            onClick={() => setPage(pageNum)}
+                            isActive={page === pageNum}
+                            className="cursor-pointer"
                           >
                             {pageNum}
                           </PaginationLink>
@@ -439,16 +364,12 @@ export default function CoursesContent({
 
                   <PaginationItem>
                     <PaginationNext
-                      href={
-                        currentPage < totalPages
-                          ? createPageURL(currentPage + 1)
-                          : "#"
-                      }
-                      aria-disabled={currentPage === totalPages}
+                      onClick={() => page < totalPages && setPage(page + 1)}
+                      aria-disabled={page === totalPages}
                       className={
-                        currentPage === totalPages
-                          ? "pointer-events-none opacity-50"
-                          : ""
+                        page === totalPages
+                          ? "pointer-events-none opacity-50 cursor-not-allowed"
+                          : "cursor-pointer"
                       }
                     />
                   </PaginationItem>
