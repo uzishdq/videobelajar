@@ -18,7 +18,7 @@ export async function createCourse(
       return {
         ok: false,
         data: null,
-        message: "Data tidak valid",
+        message: LABEL.ERROR.INVALID_FIELD,
       };
     }
 
@@ -34,7 +34,7 @@ export async function createCourse(
       return {
         ok: false,
         data: null,
-        message: LABEL.ERROR.SERVER,
+        message: LABEL.INPUT.FAILED.SAVED,
       };
     }
 
@@ -43,7 +43,7 @@ export async function createCourse(
     return {
       ok: true,
       data: createdCourse,
-      message: "Course berhasil dibuat",
+      message: LABEL.INPUT.SUCCESS.SAVED,
     };
   } catch (error) {
     console.error(error);
@@ -65,7 +65,7 @@ export async function updateCourse(
       return {
         ok: false,
         data: null,
-        message: "Data tidak valid",
+        message: LABEL.ERROR.INVALID_FIELD,
       };
     }
 
@@ -83,7 +83,7 @@ export async function updateCourse(
       return {
         ok: false,
         data: null,
-        message: "Gagal memperbarui course",
+        message: LABEL.INPUT.FAILED.UPDATE,
       };
     }
 
@@ -92,22 +92,18 @@ export async function updateCourse(
     return {
       ok: true,
       data: updatedCourse,
-      message: "Course berhasil diperbarui",
+      message: LABEL.INPUT.SUCCESS.UPDATE,
     };
   } catch (error) {
     console.error(error);
     return {
       ok: false,
       data: null,
-      message:
-        error instanceof Error
-          ? error.message
-          : "Terjadi kesalahan pada server",
+      message: error instanceof Error ? error.message : LABEL.ERROR.SERVER,
     };
   }
 }
 
-// Delete Course
 export async function deleteCourse(
   values: z.infer<typeof EditDeleteCourseSchema>,
 ): Promise<APIResponse<null>> {
@@ -118,7 +114,7 @@ export async function deleteCourse(
       return {
         ok: false,
         data: null,
-        message: "Data tidak valid",
+        message: LABEL.ERROR.INVALID_FIELD,
       };
     }
 
@@ -132,20 +128,20 @@ export async function deleteCourse(
       return {
         ok: false,
         data: null,
-        message: "Gagal menghapus course",
+        message: LABEL.INPUT.FAILED.DELETE,
       };
     }
 
     return {
       ok: true,
       data: null,
-      message: "Course berhasil dihapus",
+      message: LABEL.INPUT.SUCCESS.DELETE,
     };
   } catch (error) {
     return {
       ok: false,
       data: null,
-      message: error instanceof Error ? error.message : "Terjadi kesalahan",
+      message: error instanceof Error ? error.message : LABEL.ERROR.SERVER,
     };
   }
 }

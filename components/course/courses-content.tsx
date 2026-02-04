@@ -61,6 +61,13 @@ export default function CoursesContent() {
     fetchCourses();
   }, [fetchCourses, page]);
 
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [page]);
+
   const [isOpen, setIsOpen] = React.useState<Record<GroupKey, boolean>>({
     bidangStudi: true,
     harga: true,
@@ -97,6 +104,17 @@ export default function CoursesContent() {
     });
   };
 
+  const handleResetFilters = () => {
+    setSelectedCategories([]);
+    setPriceStart("");
+    setPriceEnd("");
+    setSearchQuery("");
+
+    resetFilters();
+  };
+
+  const isEmpty = !isLoading && data.length === 0;
+
   if (error) {
     return (
       <div
@@ -119,7 +137,7 @@ export default function CoursesContent() {
             Filter
           </CardTitle>
           <CardAction>
-            <Button variant="ghost" onClick={resetFilters}>
+            <Button variant="ghost" onClick={handleResetFilters}>
               Reset
             </Button>
           </CardAction>
@@ -298,11 +316,14 @@ export default function CoursesContent() {
             </Button>
           </div>
         </div>
-        {data.length === 0 ? (
+
+        {isEmpty && (
           <div className="text-center p-10 text-gray-400 text-base font-medium border-2 border-dashed border-gray-200 rounded-lg bg-gray-50">
             Tidak ada kelas yang ditemukan
           </div>
-        ) : (
+        )}
+
+        {data.length > 0 && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 w-full gap-5">
               {isLoading

@@ -2,7 +2,7 @@
 
 import { APIResponse, Course } from "@/lib/data-dummy";
 
-export async function getCourses(params?: {
+interface CourseQueryParams {
   minRating?: number;
   limit?: number;
   page?: number;
@@ -12,22 +12,30 @@ export async function getCourses(params?: {
   duration?: string;
   sortBy?: string;
   search?: string;
-}): Promise<APIResponse<Course[]>> {
+}
+
+const buildCourseQueryString = (params?: CourseQueryParams): string => {
+  if (!params) return "";
+
   const queryParams = new URLSearchParams();
 
-  if (params?.minRating)
-    queryParams.set("minRating", params.minRating.toString());
-  if (params?.limit) queryParams.set("limit", params.limit.toString());
-  if (params?.page) queryParams.set("page", params.page.toString());
-  if (params?.category) queryParams.set("category", params.category);
-  if (params?.priceStart)
-    queryParams.set("priceStart", params.priceStart.toString());
-  if (params?.priceEnd) queryParams.set("priceEnd", params.priceEnd.toString());
-  if (params?.duration) queryParams.set("duration", params.duration);
-  if (params?.sortBy) queryParams.set("sortBy", params.sortBy);
-  if (params?.search) queryParams.set("search", params.search);
+  (Object.keys(params) as Array<keyof CourseQueryParams>).forEach((key) => {
+    const value = params[key];
+    if (value !== undefined && value !== null && value !== "") {
+      queryParams.set(key, value.toString());
+    }
+  });
 
-  const url = `${process.env.API_BASE_URL}/api/courses?${queryParams.toString()}`;
+  const queryString = queryParams.toString();
+  return queryString ? `${queryString}` : "";
+};
+
+export async function getCourses(
+  params?: CourseQueryParams,
+): Promise<APIResponse<Course[]>> {
+  const queryParams = buildCourseQueryString(params);
+
+  const url = `${process.env.API_BASE_URL}/api/courses?${queryParams}`;
 
   const res = await fetch(url, {
     cache: "no-store",
