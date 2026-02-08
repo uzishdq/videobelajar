@@ -1,5 +1,6 @@
 "use server";
 
+import { CACHE_CONFIG } from "@/lib/cache.config";
 import { APIResponse, Course } from "@/lib/data-dummy";
 
 interface CourseQueryParams {
@@ -38,7 +39,7 @@ export async function getCourses(
   const url = `${process.env.API_BASE_URL}/api/courses?${queryParams}`;
 
   const res = await fetch(url, {
-    cache: "no-store",
+    next: CACHE_CONFIG.COURSES_LIST,
     headers: {
       Authorization: `Bearer ${process.env.API_TOKEN}`,
     },
@@ -52,7 +53,7 @@ export async function getCourse(): Promise<APIResponse<Course[]>> {
     const url = `${process.env.API_MOCK_URL}/course`;
 
     const res = await fetch(url, {
-      cache: "no-store",
+      next: CACHE_CONFIG.COURSES_LIST,
     });
 
     if (!res.ok) {

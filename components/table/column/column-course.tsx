@@ -39,6 +39,14 @@ export const columnCourse: ColumnDef<Course>[] = [
     ),
   },
   {
+    accessorKey: "category",
+    header: "Category",
+    enableHiding: false,
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("category")}</div>
+    ),
+  },
+  {
     accessorKey: "price",
     header: "Price",
     cell: ({ row }) => (

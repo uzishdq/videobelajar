@@ -1,11 +1,13 @@
 "use server";
 
-import { LABEL } from "@/lib/constant";
+import { CACHE_TAGS } from "@/lib/cache.config";
+import { LABEL, ROUTES } from "@/lib/constant";
 import { APIResponse, Course } from "@/lib/data-dummy";
 import {
   CourseSchema,
   EditDeleteCourseSchema,
 } from "@/lib/schema-validation/schema-validation";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 export async function createCourse(
@@ -37,6 +39,9 @@ export async function createCourse(
         message: LABEL.INPUT.FAILED.SAVED,
       };
     }
+
+    revalidateTag(CACHE_TAGS.COURSES, "max");
+    revalidatePath(ROUTES.AUTH.ADMIN.INDEX);
 
     const createdCourse: Course = await res.json();
 
@@ -87,6 +92,9 @@ export async function updateCourse(
       };
     }
 
+    revalidateTag(CACHE_TAGS.COURSES, "max");
+    revalidatePath(ROUTES.AUTH.ADMIN.INDEX);
+
     const updatedCourse: Course = await res.json();
 
     return {
@@ -131,6 +139,9 @@ export async function deleteCourse(
         message: LABEL.INPUT.FAILED.DELETE,
       };
     }
+
+    revalidateTag(CACHE_TAGS.COURSES, "max");
+    revalidatePath(ROUTES.AUTH.ADMIN.INDEX);
 
     return {
       ok: true,

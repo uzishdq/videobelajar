@@ -2,6 +2,7 @@
 
 import OrderCard from "@/components/order/order-card";
 import { OrderSekeleton } from "@/components/order/order-sekeleton";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { myOrderDummy, tabsMyOrder } from "@/lib/data-dummy";
+import { Search } from "lucide-react";
 import React from "react";
 
 export default function PesananPage() {
@@ -45,7 +47,7 @@ export default function PesananPage() {
     <section className="w-full">
       <Card>
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-6">
-          <div className="flex gap-3 overflow-x-auto whitespace-nowrap">
+          <div className="flex gap-5 md:gap-3 overflow-x-auto whitespace-nowrap">
             {tabsMyOrder.map((tab) => (
               <button
                 key={tab.value}
@@ -80,11 +82,17 @@ export default function PesananPage() {
                 </SelectGroup>
               </SelectContent>
             </Select>
-            <Input
-              type="text"
-              placeholder="Cari Kelas"
-              className="w-full md:w-md"
-            />
+            <div className="max-w-96 flex items-center gap-2">
+              <Input
+                type="text"
+                placeholder="Cari Kelas"
+                className="w-full md:w-md"
+              />
+
+              <Button className="shrink-0">
+                <Search className="size-4" />
+              </Button>
+            </div>
           </div>
         </div>
 

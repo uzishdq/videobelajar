@@ -40,6 +40,7 @@ import {
 } from "../ui/pagination";
 import CourseSkeleton from "./course-skeleton";
 import { useCourseStore } from "@/stores/course.store";
+import { D_CATEGORY } from "@/lib/constant";
 
 type GroupKey = "bidangStudi" | "harga" | "durasi";
 
@@ -162,25 +163,20 @@ export default function CoursesContent() {
             </div>
             <CollapsibleContent className="flex flex-col gap-2">
               <div className="flex flex-col px-1 py-2 gap-3 text-muted-foreground">
-                {[
-                  "Pemasaran",
-                  "Digital & Teknologi",
-                  "Pengembangan Diri",
-                  "Bisnis Manajemen",
-                ].map((category) => (
-                  <div key={category} className="flex items-center gap-3">
+                {D_CATEGORY.map((item) => (
+                  <div key={item.value} className="flex items-center gap-3">
                     <Checkbox
-                      id={category}
-                      checked={selectedCategories.includes(category)}
+                      id={item.value}
+                      checked={selectedCategories.includes(item.value)}
                       onCheckedChange={(checked) =>
-                        handleCategoryChange(category, checked as boolean)
+                        handleCategoryChange(item.value, checked === true)
                       }
                     />
                     <Label
-                      htmlFor={category}
+                      htmlFor={item.value}
                       className="text-base cursor-pointer"
                     >
-                      {category}
+                      {item.name}
                     </Label>
                   </div>
                 ))}

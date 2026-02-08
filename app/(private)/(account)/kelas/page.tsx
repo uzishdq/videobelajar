@@ -2,6 +2,7 @@
 
 import MyCourseCard from "@/components/course/my-course/my-course-card";
 import MyCourseSekeleton from "@/components/course/my-course/my-course-sekeleton";
+import { Button } from "@/components/ui/button";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { myClassDummy, tabsMyClass } from "@/lib/data-dummy";
+import { Search } from "lucide-react";
 import React from "react";
 
 export default function KelasPage() {
@@ -56,11 +58,13 @@ export default function KelasPage() {
               </button>
             ))}
           </div>
-          <Input
-            type="text"
-            placeholder="Cari Kelas"
-            className="w-full md:w-md"
-          />
+          <div className="w-full md:w-md flex items-center gap-2">
+            <Input type="text" placeholder="Cari Kelas" />
+
+            <Button className="shrink-0">
+              <Search className="size-4" />
+            </Button>
+          </div>
         </div>
 
         <CardContent className="space-y-4">

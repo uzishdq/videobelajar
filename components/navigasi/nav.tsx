@@ -35,7 +35,12 @@ export default function Nav() {
 
         {!HIDDEN_PATHS.includes(path) && (
           <div className="flex items-center gap-2">
-            <p className="hidden md:block">kategori</p>
+            <Link
+              href={ROUTES.PUBLIC.COURSES.INDEX}
+              className="hidden md:block hover:text-primary transition-all"
+            >
+              kategori
+            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center cursor-pointer">
