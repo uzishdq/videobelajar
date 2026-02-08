@@ -40,7 +40,7 @@ export default function KelasPage() {
     <section className="w-full">
       <Card>
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-6">
-          <div className="flex gap-11 overflow-x-auto whitespace-nowrap">
+          <div className="flex w-full max-w-full gap-11 overflow-x-auto whitespace-nowrap">
             {tabsMyClass.map((tab) => (
               <button
                 key={tab.value}

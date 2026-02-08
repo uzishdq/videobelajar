@@ -53,7 +53,7 @@ export default function RegisterForm() {
     console.log(values);
   }
   return (
-    <Card className="w-full max-w-xl min-w-sm">
+    <Card className="w-full max-w-xl min-w-sm my-6">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl md:text-[32px]">
           Pendaftaran Akun

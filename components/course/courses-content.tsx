@@ -138,7 +138,7 @@ export default function CoursesContent() {
             Filter
           </CardTitle>
           <CardAction>
-            <Button variant="ghost" onClick={handleResetFilters}>
+            <Button variant="pagination" onClick={handleResetFilters}>
               Reset
             </Button>
           </CardAction>

@@ -47,7 +47,7 @@ export default function PesananPage() {
     <section className="w-full">
       <Card>
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-6">
-          <div className="flex gap-5 md:gap-3 overflow-x-auto whitespace-nowrap">
+          <div className="flex w-full max-w-full gap-5 md:gap-3 overflow-x-auto whitespace-nowrap">
             {tabsMyOrder.map((tab) => (
               <button
                 key={tab.value}

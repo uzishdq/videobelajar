@@ -8,7 +8,7 @@ export default function AuthLayout({
   return (
     <>
       <Nav />
-      <main className="flex flex-col items-center px-7 py-5 md:px-6 md:py-16 space-y-6 md:space-y-16">
+      <main className="flex min-h-screen items-center justify-center px-6">
         {children}
       </main>
     </>

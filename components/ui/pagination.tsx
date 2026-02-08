@@ -57,11 +57,11 @@ function PaginationLink({
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ? "ghost" : "outline",
+          variant: isActive ? "pagination" : "outline",
           size,
         }),
         className,
-        "font-normal"
+        "font-normal",
       )}
       {...props}
     />
@@ -80,7 +80,6 @@ function PaginationPrevious({
       {...props}
     >
       <ChevronLeftIcon />
-      <span className="hidden sm:block">Previous</span>
     </PaginationLink>
   );
 }
@@ -96,7 +95,6 @@ function PaginationNext({
       className={cn("gap-1 px-2.5 sm:pr-2.5 font-normal", className)}
       {...props}
     >
-      <span className="hidden sm:block">Next</span>
       <ChevronRightIcon />
     </PaginationLink>
   );

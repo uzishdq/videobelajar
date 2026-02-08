@@ -284,7 +284,7 @@ export default function TableWrapper2<T>({
                         key={pageIndex}
                         variant={
                           pageIndex === pagination.pageIndex
-                            ? "default"
+                            ? "pagination"
                             : "outline"
                         }
                         size="sm"
