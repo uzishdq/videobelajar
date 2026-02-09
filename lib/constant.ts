@@ -9,6 +9,17 @@ export const ROUTES = {
       INDEX: "/courses",
       DETAIL: (id: string) => `/courses/detail-course/${id}`,
     },
+    COMPANY: {
+      ABOUT_US: "/company/about-us",
+      FAQ: "/company/faq",
+      HELP: "/company/help",
+      PRIVACY_POLICY: "/company/privacy-policy",
+      TERM_SERVICE: "/company/terms-of-service",
+    },
+    COMMUNITY: {
+      BLOG: "/community/blog",
+      TIPS: "/community/success-tips",
+    },
   },
   AUTH: {
     PROFILE: {
@@ -50,30 +61,45 @@ export const FOOTER_GROUPS: FooterGroupData[] = [
     key: "kategori",
     title: "Kategori",
     links: [
-      { label: "Digital & Teknologi", href: "/category/digital-teknologi" },
-      { label: "Pemasaran", href: "/category/pemasaran" },
-      { label: "Manajemen Bisnis", href: "/category/manajemen-bisnis" },
-      { label: "Pengembangan Diri", href: "/category/pengembangan-diri" },
-      { label: "Desain", href: "/category/desain" },
+      {
+        label: "Digital & Teknologi",
+        href: "/courses?page=1&limit=10&category=teknologi",
+      },
+      {
+        label: "Pemasaran",
+        href: "/courses?page=1&limit=10&category=pemasaran",
+      },
+      {
+        label: "Manajemen Bisnis",
+        href: "/courses?page=1&limit=10&category=bisnis",
+      },
+      {
+        label: "Pengembangan Diri",
+        href: "/courses?page=1&limit=10&category=pengembangan",
+      },
+      { label: "Desain", href: "/courses?page=1&limit=10&category=desain" },
     ],
   },
   {
     key: "perusahaan",
     title: "Perusahaan",
     links: [
-      { label: "Tentang Kami", href: "/company/tentang-kami" },
-      { label: "FAQ", href: "/company/faq" },
-      { label: "Kebijakan Privasi", href: "/company/kebijakan-privasi" },
-      { label: "Ketentuan Layanan", href: "/company/ketentuan-layanan" },
-      { label: "Bantuan", href: "/company/bantuan" },
+      { label: "Tentang Kami", href: ROUTES.PUBLIC.COMPANY.ABOUT_US },
+      { label: "FAQ", href: ROUTES.PUBLIC.COMPANY.FAQ },
+      {
+        label: "Kebijakan Privasi",
+        href: ROUTES.PUBLIC.COMPANY.PRIVACY_POLICY,
+      },
+      { label: "Ketentuan Layanan", href: ROUTES.PUBLIC.COMPANY.TERM_SERVICE },
+      { label: "Bantuan", href: ROUTES.PUBLIC.COMPANY.HELP },
     ],
   },
   {
     key: "komunitas",
     title: "Komunitas",
     links: [
-      { label: "Tips Sukses", href: "/comunity/tips-sukses" },
-      { label: "Blog", href: "/comunity/blog" },
+      { label: "Tips Sukses", href: ROUTES.PUBLIC.COMMUNITY.TIPS },
+      { label: "Blog", href: ROUTES.PUBLIC.COMMUNITY.BLOG },
     ],
   },
 ];
@@ -162,6 +188,7 @@ export const D_JOB = [
 ];
 
 export const D_CATEGORY = [
+  { name: "Digital & Teknologi", value: "teknologi" },
   { name: "Pemasaran", value: "pemasaran" },
   { name: "Desain", value: "desain" },
   { name: "Pengembangan Diri", value: "pengembangan" },
